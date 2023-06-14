@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from 'react';
 import * as THREE from 'three';
+import { TextureLoader } from 'three/src/loaders/TextureLoader';
 import { useTexture } from '@react-three/drei';
-import { useThree } from '@react-three/fiber';
+import { useThree, useLoader } from '@react-three/fiber';
 
 export default function Floor({
   rotation = [0, 0, 0],
@@ -9,13 +10,14 @@ export default function Floor({
   width = 1,
   height = 1,
   castShadow = false,
-  textureUrl = '',
+  // textureUrl = '',
   textureRepeatX,
   textureRepeatY,
   onClick,
 }) {
   const gl = useThree((state) => state.gl);
-  const texture = useTexture(textureUrl);
+  const texture = useLoader(TextureLoader, 'assets/wood.jpg');
+  // const texture = useTexture(textureUrl);
 
   useLayoutEffect(() => {
     texture.wrapS = THREE.RepeatWrapping;

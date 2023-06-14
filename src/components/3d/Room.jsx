@@ -6,7 +6,8 @@ import useStore from '../../store/useStore';
 
 export default function Room({ wallClicker, floorClicker }) {
   const scale = useStore((state) => state.scale);
-  const textureUrl = 'assets/wood.jpg';
+  // const textureUrl =
+  //   'https://github.com/Szrinker/rect-learning/blob/main/public/assets/wood.jpg';
   const wallHeight = 2;
   const floorSize = 5;
   const halfX = (scale.x * floorSize) / 2;
@@ -62,7 +63,7 @@ export default function Room({ wallClicker, floorClicker }) {
         height={scale.y * floorSize}
         position={[0, 0, 0]}
         castShadow={true}
-        textureUrl={textureUrl}
+        // textureUrl={textureUrl}
         textureRepeatX={texRepeatX}
         textureRepeatY={texRepeatY}
         onClick={floorClicker}
