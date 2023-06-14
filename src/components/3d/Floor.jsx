@@ -4,7 +4,7 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader';
 import { useTexture } from '@react-three/drei';
 import { useThree, useLoader } from '@react-three/fiber';
 
-export default function Floor({
+export default function Floor({ 
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   width = 1,
