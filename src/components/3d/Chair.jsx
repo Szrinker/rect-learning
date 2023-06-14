@@ -1,8 +1,10 @@
 import { useGLTF } from '@react-three/drei';
 import { useMemo } from 'react';
+import chairModel from '../../assets/chair.glb';
 
 export default function Chair({ id, model, onClick }) {
-  const gltf = useGLTF(model);
+  // console.log(model);
+  const gltf = useGLTF(chairModel);
   const scene = useMemo(() => gltf.scene.clone(true), []);
   return (
     <primitive name={id} userData={{ id }} object={scene} onClick={onClick} />
