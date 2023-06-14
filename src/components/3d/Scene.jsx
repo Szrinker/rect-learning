@@ -2,7 +2,6 @@ import { useCallback, useId } from 'react';
 import useStore from '../../store/useStore';
 import Room from './Room.jsx';
 import ChairFactory from './ChairFactory.jsx';
-import model from '../../assets/chair.glb';
 
 export default function Scene() {
   const objects = useStore((state) => state.objects);
@@ -14,7 +13,7 @@ export default function Scene() {
     if (object.parent.type === 'Scene') {
       addObject({
         id: crypto.randomUUID(),
-        model: model,
+        model: '../assets/chair.glb',
         position: point,
       });
     }
