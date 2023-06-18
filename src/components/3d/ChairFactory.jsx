@@ -1,8 +1,12 @@
-import { useRef } from 'react';
-import { PivotControls, useHelper } from '@react-three/drei';
-import * as THREE from "three";
-import useStore from '../../store/useStore.js';
-import Chair from './Chair.jsx';
+import { useRef, Suspense } from "react";
+import { PivotControls, useHelper, Box, Center } from "@react-three/drei";
+import { Box3, BoxHelper, Matrix4, Vector3 } from "three";
+import useStore from "../../store/useStore.js";
+import Chair from "./Chair.jsx";
+
+// const tmpVec = new Vector3();
+// const tmpBox = new Box3();
+// const tmpBox2 = new Box3();
 
 export default function ChairFactory({ chairObj }) {
   const pivotRef = useRef();
@@ -12,7 +16,7 @@ export default function ChairFactory({ chairObj }) {
   // const box = new THREE.Box3();
 
   // box.expandByObject(chairRef);
-  // useHelper(chairRef, THREE.Box3Helper, 0x000000);
+  useHelper(chairRef, BoxHelper, "magenta");
 
   return (
     <PivotControls
@@ -23,14 +27,18 @@ export default function ChairFactory({ chairObj }) {
       anchor={[0, -1, 0]}
     >
       <group ref={chairRef} position={chairObj.position}>
-          <Chair
-            id={chairObj.id}
-            model={chairObj.model}
-            onClick={(e) => {
-              e.stopPropagation();
-              setActiveId(e.eventObject.userData.id);
-            }}
-          />
+        <Suspense>
+          <Center disableY>
+            <Chair
+              id={chairObj.id}
+              model={chairObj.model}
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveId(e.eventObject.userData.id);
+              }}
+            />
+          </Center>
+        </Suspense>
       </group>
     </PivotControls>
   );
