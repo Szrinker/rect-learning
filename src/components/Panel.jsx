@@ -14,12 +14,12 @@ export default function Panel() {
           axis="x"
         />
         <RangeInput
-          label="Scale Y"
+          label="Scale Z"
           min={1}
           max={10}
           step={0.1}
           // id="scaleY"
-          axis="y"
+          axis="z"
         />
       </div>
     </div>

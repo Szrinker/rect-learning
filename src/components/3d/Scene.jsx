@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import useStore from "../../store/useStore";
 import Room from "./Room.jsx";
 import ChairFactory from "./ChairFactory.jsx";
+import { CameraControls } from "@react-three/drei"
 
 export default function Scene() {
   const objects = useStore((state) => state.objects);

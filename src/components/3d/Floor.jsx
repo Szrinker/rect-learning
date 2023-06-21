@@ -7,6 +7,7 @@ export default function Floor({
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   width = 1,
+  depth = 1,
   height = 1,
   castShadow = false,
   textureUrl = '',
@@ -29,7 +30,7 @@ export default function Floor({
       <mesh
         rotation={rotation}
         position={position}
-        scale={[width, height, 1]}
+        scale={[width, depth, height]}
         castShadow={castShadow}
         onClick={onClick}
       >
