@@ -2,12 +2,14 @@ import { useCallback } from "react";
 import useStore from "../../store/useStore";
 import Room from "./Room.jsx";
 import ChairFactory from "./ChairFactory.jsx";
-import { CameraControls } from "@react-three/drei"
 
 export default function Scene() {
   const objects = useStore((state) => state.objects);
   const addObject = useStore((state) => state.addObject);
+
   const addChair = useCallback((e) => {
+    if (useStore.getState().isDragged) return;
+
     const { point, normal, object } = e.intersections[0];
 
     if (object.parent.type === "Scene") {
