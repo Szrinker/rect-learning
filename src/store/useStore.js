@@ -36,6 +36,17 @@ const useStore = create(
 
           return bbox;
         },
+        roomSize: () => {
+          const state = get();
+          const { defaultSize, scale } = state;
+          const roomSize = {
+            width: scale.x * defaultSize,
+            height: scale.y * (defaultSize / 2),
+            depth: scale.z * defaultSize,
+          };
+
+          return roomSize;
+        },
       },
     }),
     {

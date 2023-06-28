@@ -1,5 +1,5 @@
 import { useRef, Suspense, useLayoutEffect, useMemo } from "react";
-import { PivotControls, useHelper, Center } from "@react-three/drei";
+import { PivotControls, useHelper, Center, Html } from "@react-three/drei";
 import { Box3, BoxHelper, Matrix4, Vector3 } from "three";
 import useStore from "../../store/useStore.js";
 import Chair from "./Chair.jsx";
@@ -9,7 +9,6 @@ const box1 = new Box3();
 const box2 = new Box3();
 
 export default function ChairFactory({ chairObj }) {
-  // const isDragged = useStore((state) => state.isDragged);
   const setIsDragged = useStore((state) => state.setIsDragged);
   const pivotRef = useRef();
   const chairRef = useRef();
@@ -17,7 +16,6 @@ export default function ChairFactory({ chairObj }) {
   const activeId = useStore((state) => state.activeId);
   const setActiveId = useStore((state) => state.setActiveId);
   const bbox = useStore((state) => state.computed.bbox());
-  // const clampPosition = useRef(chairObj.position.clone());
 
   const beginingMatrix = useMemo(() => {
     const clampPosition = chairObj.position.clone().clamp(bbox.min, bbox.max);
@@ -26,7 +24,6 @@ export default function ChairFactory({ chairObj }) {
       clampPosition.y,
       clampPosition.z
     );
-    // return new Matrix4().setPosition(clampPosition.current.x, clampPosition.current.y, clampPosition.current.z);
   }, [chairObj.position]);
   const matrix = useRef(beginingMatrix);
 
@@ -43,15 +40,13 @@ export default function ChairFactory({ chairObj }) {
 
     box1.copy(bbox).expandByVector(boundary.current);
 
-    // clampPosition.current = chairObj.position.clone().clamp(bbox.min, bbox.max);
-
     const m4 = matrix.current;
     const newPosition = vector3
       .set(m4.elements[12], m4.elements[13], m4.elements[14])
       .clamp(box1.min, box1.max);
 
     m4.setPosition(newPosition);
-  }, [bbox]); //, chairObj.position
+  }, [bbox]);
 
   useHelper(chairRef, BoxHelper, "magenta");
 
@@ -89,10 +84,16 @@ export default function ChairFactory({ chairObj }) {
     >
       <group ref={chairRef}>
         <Suspense>
+          {/* {(chairObj.id === activeId) && (
+            <Html>
+              <h3 id="chairName" >{chairObj.name}</h3>
+            </Html>
+          )} */}
           <Center disableY>
             <Chair
               id={chairObj.id}
               model={chairObj.model}
+              name={chairObj.name}
               onClick={(e) => {
                 e.stopPropagation();
                 setActiveId(e.eventObject.userData.id);

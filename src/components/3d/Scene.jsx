@@ -2,21 +2,29 @@ import { useCallback } from "react";
 import useStore from "../../store/useStore";
 import Room from "./Room.jsx";
 import ChairFactory from "./ChairFactory.jsx";
+import { Text, Line } from "@react-three/drei";
 
 export default function Scene() {
   const objects = useStore((state) => state.objects);
   const addObject = useStore((state) => state.addObject);
+  const roomSize = useStore((state) => state.computed.roomSize());
+
+  const halfX = roomSize.width / 2;
+  const halfY = roomSize.height / 2;
+  const halfZ = roomSize.depth / 2;
 
   const addChair = useCallback((e) => {
     if (useStore.getState().isDragged) return;
 
     const { point, normal, object } = e.intersections[0];
+    const id = crypto.randomUUID();
 
     if (object.parent.type === "Scene") {
       addObject({
-        id: crypto.randomUUID(),
+        id: id,
         model: "../../assets/chair.glb",
         position: point,
+        name: id.split("-").pop().slice(-5),
       });
     }
   }, []);
@@ -26,6 +34,72 @@ export default function Scene() {
       <axesHelper />
 
       <Room floorClicker={addChair} />
+
+      <group>
+        <Line
+          points={[
+            [-halfX, -0.4, halfZ + 0.4],
+            [halfX, -0.4, halfZ + 0.4],
+          ]}
+          color="white"
+          dashed={false}
+          lineWidth={3}
+        />
+        <Text
+          position={[0, 0, halfZ + 0.4]}
+          rotation={[0, 0, 0]}
+          fontSize={0.25}
+          color="white"
+          anchorX="center"
+          anchorY="top"
+        >
+          {roomSize.width} m
+        </Text>
+      </group>
+
+      <group>
+        <Line
+          points={[
+            [-halfX - 0.4, 0, halfZ + 0.4],
+            [-halfX - 0.4, roomSize.height, halfZ + 0.4],
+          ]}
+          color="white"
+          dashed={false}
+          lineWidth={3}
+        />
+        <Text
+          position={[-halfX - 0.4, halfY, halfZ + 0.4]}
+          rotation={[0, 0, Math.PI / 2]}
+          fontSize={0.25}
+          color="white"
+          anchorX="center"
+          anchorY="bottom"
+        >
+          {roomSize.height} m
+        </Text>
+      </group>
+
+      <group>
+        <Line
+          points={[
+            [-halfX - 0.4, -0.4, -halfZ],
+            [-halfX - 0.4, -0.4, halfZ],
+          ]}
+          color="white"
+          dashed={false}
+          lineWidth={3}
+        />
+        <Text
+          position={[-halfX - 0.4, 0, halfZ - 0.4]}
+          rotation={[0, -Math.PI / 2, 0]}
+          fontSize={0.25}
+          color="white"
+          anchorX="center"
+          anchorY="top"
+        >
+          {roomSize.depth} m
+        </Text>
+      </group>
 
       {objects.map((chair) => (
         <ChairFactory chairObj={chair} />
