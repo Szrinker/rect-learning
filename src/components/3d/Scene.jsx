@@ -90,8 +90,8 @@ export default function Scene() {
           lineWidth={3}
         />
         <Text
-          position={[-halfX - 0.4, 0, halfZ - 0.4]}
-          rotation={[0, -Math.PI / 2, 0]}
+          position={[-halfX - 0.5, -0.4, halfZ - 0.4]}
+          rotation={[-Math.PI / 2, 0, -Math.PI / 2]}
           fontSize={0.25}
           color="red"
           anchorX="center"
