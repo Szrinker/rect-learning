@@ -84,16 +84,15 @@ export default function ChairFactory({ chairObj }) {
     >
       <group ref={chairRef}>
         <Suspense>
-          {/* {(chairObj.id === activeId) && (
-            <Html>
-              <h3 id="chairName" >{chairObj.name}</h3>
-            </Html>
-          )} */}
           <Center disableY>
+            {chairObj.id === activeId && (
+              <Html position={[0, 1, 0]} center>
+                <h3 id="chairName">{chairObj.name}</h3>
+              </Html>
+            )}
             <Chair
               id={chairObj.id}
               model={chairObj.model}
-              name={chairObj.name}
               onClick={(e) => {
                 e.stopPropagation();
                 setActiveId(e.eventObject.userData.id);
