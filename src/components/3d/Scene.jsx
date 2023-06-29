@@ -46,8 +46,8 @@ export default function Scene() {
           lineWidth={3}
         />
         <Text
-          position={[0, 0, halfZ + 0.4]}
-          rotation={[0, 0, 0]}
+          position={[0, -0.4, halfZ + 0.5]}
+          rotation={[-Math.PI / 2, 0, 0]}
           fontSize={0.25}
           color="white"
           anchorX="center"
@@ -93,7 +93,7 @@ export default function Scene() {
           position={[-halfX - 0.4, 0, halfZ - 0.4]}
           rotation={[0, -Math.PI / 2, 0]}
           fontSize={0.25}
-          color="white"
+          color="red"
           anchorX="center"
           anchorY="top"
         >
