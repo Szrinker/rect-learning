@@ -1,6 +1,6 @@
-import { Vector3, Box3, Sphere, Clock } from "three";
+import { Vector3, Box3, Sphere } from "three";
 import React, { useRef, useMemo, useEffect } from "react";
-import { CameraControls, useHelper } from "@react-three/drei";
+import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import useStore from "../../store/useStore";
 
@@ -28,18 +28,12 @@ function setBBoxDimensions(width, height, depth, target = new Box3()) {
   return target;
 }
 
-const clock = new Clock();
 const bbox = new Box3();
-const center = new Vector3();
 const bsphere = new Sphere();
 
 function CustomCameraControls({ options, fitOnResize = true }) {
   const roomSize = useStore((state) => state.computed.roomSize());
-  const setThree = useThree((state) => state.set);
-  const gl = useThree((state) => state.gl);
   const size = useThree((state) => state.size);
-  const scene = useThree((state) => state.scene);
-  const camera = useThree((state) => state.camera);
   const controls = useRef();
   const fitToSphere = useMemo(
     () =>
@@ -49,7 +43,6 @@ function CustomCameraControls({ options, fitOnResize = true }) {
     [controls.current]
   );
 
-  console.log(size);
   useDidMountEffect(() => {
     setBBoxDimensions(roomSize.width, roomSize.height, roomSize.depth, bbox);
     if (bbox.isEmpty()) return;
