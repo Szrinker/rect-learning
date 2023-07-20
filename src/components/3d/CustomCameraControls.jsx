@@ -1,26 +1,6 @@
-import {
-  MOUSE,
-  Vector2,
-  Vector3,
-  Vector4,
-  Quaternion,
-  Matrix4,
-  Spherical,
-  Box3,
-  BoxHelper,
-  Sphere,
-  Raycaster,
-  MathUtils,
-  Clock,
-} from "three";
-import React, {
-  useRef,
-  useMemo,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-} from "react";
-import { CameraControls } from "@react-three/drei";
+import { Vector3, Box3, Sphere, Clock } from "three";
+import React, { useRef, useMemo, useEffect, useCallback } from "react";
+import { CameraControls, useHelper } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import useStore from "../../store/useStore";
 
@@ -37,13 +17,13 @@ const useDidMountEffect = (func, deps) => {
 };
 
 function setBBoxDimensions(width, height, depth, target = new Box3()) {
-  target.min.x = 0;
+  target.min.x = -(width / 2);
   target.min.y = 0;
-  target.min.z = 0;
+  target.min.z = -(depth / 2);
 
-  target.max.x = width;
+  target.max.x = width / 2;
   target.max.y = height;
-  target.max.z = depth;
+  target.max.z = depth / 2;
 
   return target;
 }
@@ -73,13 +53,12 @@ function CustomCameraControls({ options, fitOnResize = true }) {
 
   useDidMountEffect(() => {
     setBBoxDimensions(roomSize.width, roomSize.height, roomSize.depth, bbox);
-    console.log(bbox);
     if (bbox.isEmpty()) return;
 
     bbox.getBoundingSphere(bsphere);
 
     fitToSphere(bsphere, true);
-  }, [fitOnResize && size, roomSize]);
+  }, [fitOnResize, size, roomSize]);
 
   useEffect(() => {
     let stopLoop = false;

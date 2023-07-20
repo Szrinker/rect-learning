@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import CustomCameraControls from "./components/3d/CustomCameraControls";
 import Panel from "./components/Panel";
 import Scene from "./components/3d/Scene";
+// import useStore from "../../store/useStore";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
           options={{
             minPolarAngle: 0,
             maxPolarAngle: Math.PI / 2,
-            minDistance: 5,
+            // minDistance: 5,
             dampingFactor: 0.15,
           }}
         />
