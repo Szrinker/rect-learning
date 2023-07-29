@@ -50,7 +50,13 @@ function CustomCameraControls({ options, fitOnResize = true }) {
     bbox.getBoundingSphere(bsphere);
 
     fitToSphere(bsphere, true);
-  }, [fitOnResize, size.width, size.height, roomSize]);
+  }, [
+    fitOnResize,
+    size.width,
+    roomSize.width,
+    roomSize.depth,
+    roomSize.height,
+  ]);
 
   return <CameraControls makeDefault ref={controls} {...options} />;
 }

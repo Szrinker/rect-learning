@@ -15,6 +15,9 @@ function App() {
         camera={{ position: [2, 2, 2] }}
         shadows
         style={{ background: "#333333" }}
+        gl={{
+          localClippingEnabled: true,
+        }}
       >
         <CustomCameraControls
           options={{

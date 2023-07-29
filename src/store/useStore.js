@@ -2,6 +2,17 @@ import { Box3 } from "three";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
+// Temporary fix change comuted below to this zustand plugin https://github.com/chrisvander/zustand-computed
+function shallowObjCompare(objA, objB) {
+  for (let key in objA) {
+    if (objA[key] !== objB[key]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 const useStore = create(
   devtools(
     (set, get) => ({
@@ -36,17 +47,37 @@ const useStore = create(
 
           return bbox;
         },
-        roomSize: () => {
-          const state = get();
-          const { defaultSize, scale } = state;
-          const roomSize = {
-            width: scale.x * defaultSize,
-            height: scale.y * (defaultSize / 2),
-            depth: scale.z * defaultSize,
-          };
+        roomSize: (function () {
+          let prevRoomSize = { width: 0, height: 0, depth: 0 };
 
-          return roomSize;
-        },
+          return () => {
+            const state = get();
+            const { defaultSize, scale } = state;
+            const roomSize = {
+              width: scale.x * defaultSize,
+              height: scale.y * (defaultSize / 2),
+              depth: scale.z * defaultSize,
+            };
+
+            if (shallowObjCompare(prevRoomSize, roomSize)) {
+              return prevRoomSize;
+            } else {
+              prevRoomSize = roomSize;
+              return roomSize;
+            }
+          };
+        })(),
+        // roomSize: () => {
+        //   const state = get();
+        //   const { defaultSize, scale } = state;
+        //   const roomSize = {
+        //     width: scale.x * defaultSize,
+        //     height: scale.y * (defaultSize / 2),
+        //     depth: scale.z * defaultSize,
+        //   };
+
+        //   return roomSize;
+        // },
       },
     }),
     {
