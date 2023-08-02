@@ -32,7 +32,7 @@ const bbox = new Box3();
 const bsphere = new Sphere();
 
 function CustomCameraControls({ options, fitOnResize = true }) {
-  const roomSize = useStore((state) => state.computed.roomSize());
+  const roomSize = useStore((state) => state.roomSize());
   const size = useThree((state) => state.size);
   const controls = useRef();
   const fitToSphere = useMemo(

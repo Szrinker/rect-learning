@@ -1,4 +1,4 @@
-import React, { useState, useId } from 'react';
+import { useState, useId } from 'react';
 import useStore from '../../store/useStore';
 
 export default function RangeInput({

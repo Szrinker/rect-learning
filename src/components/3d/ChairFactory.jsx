@@ -15,7 +15,7 @@ export default function ChairFactory({ chairObj }) {
   const boundary = useRef(new Vector3());
   const activeId = useStore((state) => state.activeId);
   const setActiveId = useStore((state) => state.setActiveId);
-  const bbox = useStore((state) => state.computed.bbox());
+  const bbox = useStore((state) => state.bbox());
 
   const beginingMatrix = useMemo(() => {
     const clampPosition = chairObj.position.clone().clamp(bbox.min, bbox.max);
