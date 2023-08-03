@@ -7,9 +7,9 @@ import {
   Matrix4
 } from "three";
 import {useThree} from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-export default function ThickWall({
+function ThickWall({
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   geometry = [1, 1, 1],
@@ -19,8 +19,8 @@ export default function ThickWall({
   thickness = 0,
   castShadow = false,
   onClick,
-}) {
-  const ref = useRef();
+}, ref) {
+  const ref1 = useRef();
   const ref2 = useRef();
   const refBox = useRef();
 
@@ -55,7 +55,7 @@ export default function ThickWall({
   });
 
   return (
-    <>
+    <group ref={ref}>
       <mesh
         rotation={rotation}
         position={position}
@@ -74,7 +74,7 @@ export default function ThickWall({
       </mesh>
 
       <mesh
-        ref={ref}
+        ref={ref1}
         rotation={rotation}
         position={position}
         castShadow={castShadow}
@@ -90,6 +90,8 @@ export default function ThickWall({
           // clipIntersection={true}
         />
       </mesh>
-    </>
+    </group>
   );
 }
+
+export default React.forwardRef(ThickWall);
