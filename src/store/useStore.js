@@ -72,7 +72,6 @@ const useStore = create(
         setIsDragged: (value) => set((state) => ({ isDragged: value })),
       }),
       computedState,
-      // { disableProxy: true }
     ),
     {
       name: "ChairFactory",
