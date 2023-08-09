@@ -23,7 +23,7 @@ export default function Room({ wallClicker, floorClicker }) {
       key: 'redWall',
       geometry: [roomSize.width + wallThickness * 2, wallHeight, wallThickness],
       position: [0, halfY, -halfZ - wallThickness / 2],
-      rotation: [0, Math.PI, 0],
+      rotation: [0, 0, 0],
       color: 0xff0000,
       width: roomSize.width,
     },
@@ -88,7 +88,7 @@ export default function Room({ wallClicker, floorClicker }) {
         textureUrl={textureUrl}
         textureRepeatX={texRepeatX}
         textureRepeatY={texRepeatY}
-        // onClick={floorClicker}
+        onClick={floorClicker}
       />
     </>
   );

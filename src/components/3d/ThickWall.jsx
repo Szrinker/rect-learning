@@ -1,13 +1,9 @@
 import {
   Vector3,
   Plane,
-  BackSide,
-  PlaneHelper,
-  Quaternion,
-  Matrix4
+  BackSide
 } from "three";
-import {useThree} from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import {useLayoutEffect, useRef} from "react";
 
 export default function ThickWall({
   rotation = [0, 0, 0],
@@ -20,45 +16,32 @@ export default function ThickWall({
   castShadow = false,
   onClick,
 }) {
+  const refMesh1 = useRef();
   const ref = useRef();
   const ref2 = useRef();
   const refBox = useRef();
+  const group = useRef();
 
-  const positionVector = new Vector3(position[0], position[1], position[2]);
-  const dir = positionVector.clone().normalize();
-  const matrix = new Matrix4()
-    .compose(
-      positionVector,
-      new Quaternion().setFromUnitVectors(
-        new Vector3(0, 0, 0),
-        dir
-      ),
-      new Vector3(1, 1, 1)
-    );
-  const clipping = new Plane(
-    new Vector3(-1, 0, 0).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4),
-    (((width) + thickness) * Math.sqrt(2)) / 4
-  ).applyMatrix4(matrix);
-  const clipping2 = new Plane(
-    new Vector3(0, 0, 1).applyAxisAngle(new Vector3(0, -1, 0), -Math.PI/4),
-    (((width) + thickness) * Math.sqrt(2)) / 4
-  ).applyMatrix4(matrix);
-  const planeHelper = useRef(new PlaneHelper(clipping, 10, color));
-  const planeHelper2 = useRef(new PlaneHelper(clipping2, 10, color));
-  const scene = useThree((state) => state.scene);
+  useLayoutEffect(() => {
+    group.current.updateMatrixWorld();
+    const clipping = new Plane(
+      new Vector3(-1, 0, 0).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
+      (((width) + thickness) * Math.sqrt(2)) / 4
+    ).applyMatrix4(group.current.matrixWorld)
+    const clipping2 = new Plane(
+      new Vector3(0, 0, -1).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
+      (((width) + thickness) * Math.sqrt(2)) / 4
+    ).applyMatrix4(group.current.matrixWorld)
 
-  useEffect(() => {
-    planeHelper.current.plane = clipping;
-    planeHelper2.current.plane = clipping2;
-    scene.add(planeHelper.current);
-    scene.add(planeHelper2.current);
-  });
+    refMesh1.current.material.clippingPlanes = [clipping, clipping2];
+    ref.current.material.clippingPlanes = [clipping, clipping2];
+  }, [width, thickness, geometry, rotation]);
 
   return (
-    <>
+    <group ref={group} position={position}>
       <mesh
+        ref={refMesh1}
         rotation={rotation}
-        position={position}
         castShadow={castShadow}
         onClick={onClick}
       >
@@ -67,7 +50,7 @@ export default function ThickWall({
           color={'black'}
           side={BackSide}
           // clippingPlanes={[clipping]}
-          clippingPlanes={[clipping, clipping2]}
+          // clippingPlanes={[clipping, clipping2]}
           // clipShadows={true}
           // clipIntersection={true}
         />
@@ -76,7 +59,6 @@ export default function ThickWall({
       <mesh
         ref={ref}
         rotation={rotation}
-        position={position}
         castShadow={castShadow}
         onClick={onClick}
       >
@@ -85,11 +67,11 @@ export default function ThickWall({
           ref={ref2}
           color={color}
           // clippingPlanes={[clipping]}
-          clippingPlanes={[clipping, clipping2]}
+          // clippingPlanes={[clipping, clipping2]}
           // clipShadows={true}
           // clipIntersection={true}
         />
       </mesh>
-    </>
+    </group>
   );
 }
