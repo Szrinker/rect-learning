@@ -27,7 +27,7 @@ function App() {
             smoothTime: 0.15,
           }}
         />
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={1} />
         <Scene />
       </Canvas>
     </>

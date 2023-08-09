@@ -35,7 +35,7 @@ export default function Room({ wallClicker, floorClicker }) {
 
   return (
     <>
-      <Light castShadow={true} position={[0, 0.8, 0]} />
+      <Light castShadow={true} position={[0, wallHeight - 0.3, 0]} intensity={1.5} />
 
       <ThickWall
         key={'redWall'}
