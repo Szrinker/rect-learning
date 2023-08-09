@@ -23,15 +23,25 @@ function ThickWall({
   const group = useRef();
 
   useLayoutEffect(() => {
-    group.current.updateMatrixWorld();
+    // group.current.updateMatrixWorld();
+    // const clipping = new Plane(
+    //   new Vector3(-1, 0, 0).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
+    //   (((width) + thickness) * Math.sqrt(2)) / 4
+    // ).applyMatrix4(group.current.matrixWorld)
+    // const clipping2 = new Plane(
+    //   new Vector3(0, 0, -1).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
+    //   (((width) + thickness) * Math.sqrt(2)) / 4
+    // ).applyMatrix4(group.current.matrixWorld)
+
+    ref.current.updateMatrixWorld();
     const clipping = new Plane(
       new Vector3(-1, 0, 0).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
       (((width) + thickness) * Math.sqrt(2)) / 4
-    ).applyMatrix4(group.current.matrixWorld)
+    ).applyMatrix4(ref.current.matrixWorld)
     const clipping2 = new Plane(
       new Vector3(0, 0, -1).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
       (((width) + thickness) * Math.sqrt(2)) / 4
-    ).applyMatrix4(group.current.matrixWorld)
+    ).applyMatrix4(ref.current.matrixWorld)
 
     refMesh1.current.material.clippingPlanes = [clipping, clipping2];
     ref1.current.material.clippingPlanes = [clipping, clipping2];
@@ -39,8 +49,8 @@ function ThickWall({
 
   return (
     <group
-      // ref={ref}
-      ref={group}
+      ref={ref}
+      // ref={group}
       position={position}
     >
       <mesh
