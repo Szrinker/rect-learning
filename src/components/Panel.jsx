@@ -3,8 +3,7 @@ import useStore from '../store/useStore';
 import RangeInput from './gui/RangeInput';
 
 export default function Panel() {
-  const wallThickness = useStore((state) => state.wallThickness);
-  const setWallThickness = useStore((state) => state.setWallThickness);
+  const { wallThickness, setWallThickness, model, setModel } = useStore();
   const [value, setValue] = useState(wallThickness);
   const handleChange = (e) => {
     const val = e.target.value;
@@ -51,6 +50,16 @@ export default function Panel() {
             value={value}
           />
           <p>Value: {value}</p>
+        </div>
+
+        <div className="slider-container">
+          <select
+            value={model}
+            onChange={e => setModel(e.target.value)}
+          >
+            <option value="chair">Chair</option>
+            <option value="cabinet">Cabinet</option>
+          </select>
         </div>
       </div>
     </div>

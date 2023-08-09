@@ -9,8 +9,7 @@ export default function RangeInput({
   axis = null,
 }) {
   const id = useId();
-  const scale = useStore((state) => state.scale);
-  const setScale = useStore((state) => state.setScale);
+  const {scale, setScale} = useStore();
   const [value, setValue] = useState(min);
   const onChange = (e) => {
     const val = e.target.value;

@@ -34,6 +34,11 @@ body {
 .slider-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.slider-container p {
+  margin: 0;
 }
 
 #chairName {
@@ -41,6 +46,6 @@ body {
   color: #fff;
   font-weight: normal;
   font-size: 1rem;
-  padding: 0.5rem;
+  /*padding: 0.5rem;*/
   border-radius: 0.3rem;
 }

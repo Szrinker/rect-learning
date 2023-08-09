@@ -7,10 +7,9 @@ import useStore from '../../store/useStore';
 import {useFrame, useThree} from "@react-three/fiber";
 
 export default function Room({ wallClicker, floorClicker }) {
-  const scale = useStore((state) => state.scale);
+  const {scale, wallThickness} = useStore();
   const textureUrl = 'assets/wood.jpg?url';
   const roomSize = useStore((state) => state.roomSize());
-  const wallThickness = useStore((state) => state.wallThickness);
 
   const wallHeight = roomSize.height;
   const halfX = roomSize.width / 2;

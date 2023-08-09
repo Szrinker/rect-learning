@@ -1,10 +1,7 @@
 import { Canvas } from "@react-three/fiber";
-// import { OrbitControls } from '@react-three/drei';
-// import { CameraControls } from "@react-three/drei";
 import CustomCameraControls from "./components/3d/CustomCameraControls";
 import Panel from "./components/Panel";
 import Scene from "./components/3d/Scene";
-// import useStore from "../../store/useStore";
 
 function App() {
   return (

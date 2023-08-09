@@ -1,18 +1,30 @@
-import { useCallback } from "react";
+import {useCallback, useEffect} from 'react';
 import useStore from "../../store/useStore";
 import Room from "./Room.jsx";
-import ChairFactory from "./ChairFactory.jsx";
+import FurnitureFactory from "./FurnitureFactory.jsx";
 import { Text, Line } from "@react-three/drei";
 
 export default function Scene() {
-  const objects = useStore((state) => state.objects);
-  const addObject = useStore((state) => state.addObject);
   const roomSize = useStore((state) => state.roomSize());
-  const wallThickness = useStore((state) => state.wallThickness);
+  const { objects, addObject, wallThickness, model, setActiveId } = useStore();
 
   const halfX = roomSize.width / 2;
   const halfY = roomSize.height / 2;
   const halfZ = roomSize.depth / 2;
+
+  useEffect(() => {
+    const handleKey = e => {
+      if (e.key === 'Escape') {
+        setActiveId(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleKey);
+
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+    }
+  }, []);
 
   const addChair = useCallback((e) => {
     if (useStore.getState().isDragged) return;
@@ -23,20 +35,21 @@ export default function Scene() {
     if (object.parent.type === "Scene") {
       addObject({
         id: id,
-        model: "../../assets/chair.glb",
+        model: `/assets/${model}.glb`,
         position: point,
         name: id.split("-").pop().slice(-5),
+        width: 1,
       });
     }
-  }, []);
+  }, [model]);
 
   return (
     <>
       <axesHelper />
 
-      <Room floorClicker={addChair} />
+      <Room floorClicker={addChair} key="room"/>
 
-      <group>
+      <group key="line1">
         <Line
           points={[
             [-halfX, -0.4, halfZ + wallThickness + 0.4],
@@ -58,7 +71,7 @@ export default function Scene() {
         </Text>
       </group>
 
-      <group>
+      <group key="line2">
         <Line
           points={[
             [-halfX - wallThickness - 0.4, 0, halfZ + wallThickness + 0.4],
@@ -80,7 +93,7 @@ export default function Scene() {
         </Text>
       </group>
 
-      <group>
+      <group key="line3">
         <Line
           points={[
             [-halfX - wallThickness - 0.4, -0.4, -halfZ],
@@ -102,8 +115,8 @@ export default function Scene() {
         </Text>
       </group>
 
-      {objects.map((chair) => (
-        <ChairFactory chairObj={chair} />
+      {objects.map((furniture) => (
+        <FurnitureFactory furnitureObj={furniture} key={`cf-${furniture?.id}`} />
       ))}
     </>
   );

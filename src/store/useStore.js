@@ -33,6 +33,19 @@ const computedState = (state) => ({
 
     return bbox;
   },
+  // scaleFurniture: (id, value) => {
+  //   const {objects} = state;
+  //
+  //   objects.map(i => {
+  //     if(i.id === id) {
+  //       return {...i, width: Number(value)};
+  //     }
+  //
+  //     return i;
+  //   });
+  //
+  //   return objects;
+  // },
   roomSize: (function () {
     let prevRoomSize = { width: 0, height: 0, depth: 0 };
 
@@ -60,6 +73,7 @@ const useStore = create(
       (set, get) => ({
         scale: { x: 1, y: 1, z: 1 },
         defaultSize: 5,
+        model: 'chair',
         wallThickness: 0.5,
         objects: [],
         activeId: null,
@@ -70,11 +84,15 @@ const useStore = create(
           set((state) => ({ objects: [...state.objects, value] })),
         setActiveId: (value) => set((state) => ({ activeId: value })),
         setIsDragged: (value) => set((state) => ({ isDragged: value })),
+        setModel: (value) => set((state) => ({model: value})),
+        scaleFurniture: (id, value) => set((state) => ({
+          objects: state.objects.map((o) => o.id === id ? { ...o, width: Number(value) } : o),
+        })),
       }),
       computedState,
     ),
     {
-      name: "ChairFactory",
+      name: "FurnitureFactory",
       serialize: true,
     }
   )

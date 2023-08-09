@@ -2,36 +2,39 @@ import { useRef, Suspense, useLayoutEffect, useMemo } from "react";
 import { PivotControls, useHelper, Center, Html } from "@react-three/drei";
 import { Box3, BoxHelper, Matrix4, Vector3 } from "three";
 import useStore from "../../store/useStore.js";
-import Chair from "./Chair.jsx";
+import Model from "./Model.jsx";
 
 const vector3 = new Vector3();
 const box1 = new Box3();
 const box2 = new Box3();
 
-export default function ChairFactory({ chairObj }) {
-  const setIsDragged = useStore((state) => state.setIsDragged);
+export default function FurnitureFactory({ furnitureObj }) {
   const pivotRef = useRef();
   const chairRef = useRef();
   const boundary = useRef(new Vector3());
-  const activeId = useStore((state) => state.activeId);
-  const setActiveId = useStore((state) => state.setActiveId);
   const bbox = useStore((state) => state.bbox());
+  const scaleFurniture = useStore((state) => state.scaleFurniture);
+  const {activeId, setActiveId, setIsDragged, objects} = useStore();
 
   const beginingMatrix = useMemo(() => {
-    const clampPosition = chairObj.position.clone().clamp(bbox.min, bbox.max);
+    const clampPosition = furnitureObj.position.clone().clamp(bbox.min, bbox.max);
     return new Matrix4().setPosition(
       clampPosition.x,
       clampPosition.y,
       clampPosition.z
     );
-  }, [chairObj.position]);
+  }, [furnitureObj.position]);
   const matrix = useRef(beginingMatrix);
+  const handleScale = (e) => {
+    scaleFurniture(furnitureObj.id, e.target.value);
+    // objects.find(i => i.id === furnitureObj.id).width = Number(e.target.value);
+  };
 
   useLayoutEffect(() => {
     box2.setFromObject(chairRef.current);
     box2.getSize(boundary.current);
     boundary.current.multiplyScalar(0.5).negate().setY(0);
-  }, [chairObj]);
+  }, [furnitureObj]);
 
   useLayoutEffect(() => {
     box2.setFromObject(chairRef.current);
@@ -53,13 +56,13 @@ export default function ChairFactory({ chairObj }) {
   return (
     <PivotControls
       ref={pivotRef}
-      key={chairObj.id}
+      key={furnitureObj.id}
       fixed
       scale={100}
       activeAxes={[true, false, true]}
       autoTransform={false}
       matrix={matrix.current}
-      visible={chairObj.id === activeId}
+      visible={furnitureObj.id === activeId}
       anchor={[0, -1, 0]}
       onDrag={(m, md, mW, mWd) => {
         if (!matrix.current) return;
@@ -82,21 +85,42 @@ export default function ChairFactory({ chairObj }) {
         setTimeout(() => setIsDragged(false), 0);
       }}
     >
-      <group ref={chairRef}>
+      <group ref={chairRef} key={`${furnitureObj.id}-gr`}>
         <Suspense>
           <Center disableY>
-            {chairObj.id === activeId && (
+            {furnitureObj.id === activeId && (
               <Html position={[0, 1, 0]} center>
-                <h3 id="chairName">{chairObj.name}</h3>
+                <div
+                  style={{
+                    background: 'rgba(0,0,0,0.7)',
+                    borderRadius: '0.3rem',
+                    color: 'rgb(255,255,255)',
+                    padding: '5px',
+                  }}
+                >
+                  <p style={{margin: 0}}>{furnitureObj.name}</p>
+                  <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                    <label htmlFor={furnitureObj.id}>Width</label>
+                    <input
+                      style={{width: '40px'}}
+                      type="number"
+                      id={furnitureObj.id}
+                      value={furnitureObj.width}
+                      step={0.2}
+                      onChange={(e) => {handleScale(e)}}
+                    />
+                  </div>
+                </div>
               </Html>
             )}
-            <Chair
-              id={chairObj.id}
-              model={chairObj.model}
+            <Model
+              id={furnitureObj.id}
+              model={furnitureObj.model}
               onClick={(e) => {
                 e.stopPropagation();
                 setActiveId(e.eventObject.userData.id);
               }}
+              scale={[furnitureObj.width, 1, 1]}
             />
           </Center>
         </Suspense>
