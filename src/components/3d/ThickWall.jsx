@@ -1,13 +1,9 @@
 import {
   Vector3,
   Plane,
-  BackSide,
-  PlaneHelper,
-  Quaternion,
-  Matrix4
+  BackSide
 } from "three";
-import {useThree} from "@react-three/fiber";
-import React, { useEffect, useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 
 function ThickWall({
   rotation = [0, 0, 0],
@@ -38,7 +34,7 @@ function ThickWall({
     ).applyMatrix4(group.current.matrixWorld)
 
     refMesh1.current.material.clippingPlanes = [clipping, clipping2];
-    ref.current.material.clippingPlanes = [clipping, clipping2];
+    ref1.current.material.clippingPlanes = [clipping, clipping2];
   }, [width, thickness, geometry, rotation]);
 
   return (

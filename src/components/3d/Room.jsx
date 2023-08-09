@@ -27,51 +27,12 @@ export default function Room({ wallClicker, floorClicker }) {
   const wallYellow = useRef();
 
 
-  useFrame(() => {
-    wallRed.current.visible = camera.position.x > (-roomSize.width / 2) + wallThickness/2;
-    wallGreen.current.visible = camera.position.x > (roomSize.width / 2) + wallThickness/2;
-    wallBlue.current.visible = camera.position.z < roomSize.depth / 2 + wallThickness/2;
-    wallYellow.current.visible = camera.position.z > roomSize.depth / 2 + wallThickness/2;
-  })
-
-  // const walls = [
-  //   {
-  //     key: 'redWall',
-  //     geometry: [roomSize.width + wallThickness * 2, wallHeight, wallThickness],
-  //     position: [0, halfY, -halfZ - wallThickness / 2],
-  //     rotation: [0, Math.PI, 0],
-  //     color: 0xff0000,
-  //     width: roomSize.width,
-  //     ref: wallRed,
-  //   },
-  //   {
-  //     key: 'greenWall',
-  //     geometry: [roomSize.depth + wallThickness * 2, wallHeight, wallThickness],
-  //     position: [-halfX - wallThickness / 2, halfY, 0],
-  //     rotation: [0, Math.PI/2, 0],
-  //     color: 0x08000,
-  //     width: roomSize.depth,
-  //     ref: wallGreen,
-  //   },
-  //   {
-  //     key: 'blueWall',
-  //     geometry: [roomSize.width + wallThickness * 2, wallHeight, wallThickness],
-  //     position: [0, halfY, halfZ + wallThickness / 2],
-  //     rotation: [0, -Math.PI, 0],
-  //     color: 0x0000ff,
-  //     width: roomSize.width,
-  //     ref: wallBlue,
-  //   },
-  //   {
-  //     key: 'yellowWall',
-  //     geometry: [roomSize.depth + wallThickness * 2, wallHeight, wallThickness],
-  //     position: [halfX + wallThickness / 2, halfY, 0],
-  //     rotation: [0, -Math.PI/2, 0],
-  //     color: 0xffff00,
-  //     width: roomSize.depth,
-  //     ref: wallYellow,
-  //   },
-  // ];
+  // useFrame(() => {
+  //   wallRed.current.visible = camera.position.x > (-roomSize.width / 2) + wallThickness/2;
+  //   wallGreen.current.visible = camera.position.x > (roomSize.width / 2) + wallThickness/2;
+  //   wallBlue.current.visible = camera.position.z < roomSize.depth / 2 + wallThickness/2;
+  //   wallYellow.current.visible = camera.position.z > roomSize.depth / 2 + wallThickness/2;
+  // });
 
   return (
     <>
@@ -92,7 +53,7 @@ export default function Room({ wallClicker, floorClicker }) {
         key={'redWall'}
         geometry={[roomSize.width + wallThickness * 2, wallHeight, wallThickness]}
         position={[0, halfY, -halfZ - wallThickness / 2]}
-        rotation={[0, Math.PI, 0]}
+        rotation={[0, 0, 0]}
         color={0xff0000}
         width={roomSize.width}
         ref={wallRed}
