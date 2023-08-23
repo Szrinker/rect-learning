@@ -8,7 +8,7 @@ export default function Light({
   lightColor = 0xffffff,
   intensity = 0.4,
   distance = 0,
-  decay = 2,
+  decay = 1,
   castShadow = false,
   position = [0, 0, 0],
   shadowMapSize = [1024, 1024],

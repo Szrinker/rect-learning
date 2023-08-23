@@ -13,6 +13,7 @@ function ThickWall({
   width = 0,
   height = 0,
   thickness = 0,
+  receiveShadow = false,
   castShadow = false,
   onClick,
 }, ref) {
@@ -23,16 +24,6 @@ function ThickWall({
   const group = useRef();
 
   useLayoutEffect(() => {
-    // group.current.updateMatrixWorld();
-    // const clipping = new Plane(
-    //   new Vector3(-1, 0, 0).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
-    //   (((width) + thickness) * Math.sqrt(2)) / 4
-    // ).applyMatrix4(group.current.matrixWorld)
-    // const clipping2 = new Plane(
-    //   new Vector3(0, 0, -1).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
-    //   (((width) + thickness) * Math.sqrt(2)) / 4
-    // ).applyMatrix4(group.current.matrixWorld)
-
     ref.current.updateMatrixWorld();
     const clipping = new Plane(
       new Vector3(-1, 0, 0).applyAxisAngle(new Vector3(0, 1, 0), -Math.PI/4).applyAxisAngle(new Vector3(0, 1, 0), rotation[1]),
@@ -57,6 +48,7 @@ function ThickWall({
         ref={refMesh1}
         rotation={rotation}
         castShadow={castShadow}
+        receiveShadow={receiveShadow}
         onClick={onClick}
       >
         <boxGeometry args={geometry} />
@@ -75,6 +67,7 @@ function ThickWall({
         rotation={rotation}
         castShadow={castShadow}
         onClick={onClick}
+        receiveShadow={receiveShadow}
       >
         <boxGeometry args={geometry} ref={refBox} />
         <meshPhysicalMaterial

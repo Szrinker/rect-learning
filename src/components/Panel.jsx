@@ -3,7 +3,10 @@ import useStore from '../store/useStore';
 import RangeInput from './gui/RangeInput';
 
 export default function Panel() {
-  const { wallThickness, setWallThickness, model, setModel } = useStore();
+  const wallThickness = useStore((state) => state.wallThickness);
+  const setWallThickness = useStore((state) => state.setWallThickness);
+  const model = useStore((state) => state.model);
+  const setModel = useStore((state) => state.setModel);
   const [value, setValue] = useState(wallThickness);
   const handleChange = (e) => {
     const val = e.target.value;
@@ -59,6 +62,8 @@ export default function Panel() {
           >
             <option value="chair">Chair</option>
             <option value="cabinet">Cabinet</option>
+            <option value="cabinet_width">Cabinet width</option>
+            <option value="cabinet_allmorphs">Cabinet all</option>
           </select>
         </div>
       </div>

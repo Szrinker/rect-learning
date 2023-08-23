@@ -10,6 +10,7 @@ export default function Floor({
   depth = 1,
   height = 1,
   castShadow = false,
+  receiveShadow = false,
   textureUrl = '',
   textureRepeatX,
   textureRepeatY,
@@ -32,6 +33,7 @@ export default function Floor({
         position={position}
         scale={[width, depth, height]}
         castShadow={castShadow}
+        receiveShadow={receiveShadow}
         onClick={onClick}
       >
         <planeGeometry args={[1, 1]} />

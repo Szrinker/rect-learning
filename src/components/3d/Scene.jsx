@@ -6,7 +6,11 @@ import { Text, Line } from "@react-three/drei";
 
 export default function Scene() {
   const roomSize = useStore((state) => state.roomSize());
-  const { objects, addObject, wallThickness, model, setActiveId } = useStore();
+  const objects = useStore((state) => state.objects);
+  const addObject = useStore((state) => state.addObject);
+  const wallThickness = useStore((state) => state.wallThickness);
+  const model = useStore((state) => state.model);
+  const setActiveId = useStore((state) => state.setActiveId);
 
   const halfX = roomSize.width / 2;
   const halfY = roomSize.height / 2;
@@ -39,6 +43,8 @@ export default function Scene() {
         position: point,
         name: id.split("-").pop().slice(-5),
         width: 1,
+        height: 1,
+        depth: 1,
       });
     }
   }, [model]);

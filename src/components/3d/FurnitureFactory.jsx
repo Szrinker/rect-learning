@@ -10,11 +10,13 @@ const box2 = new Box3();
 
 export default function FurnitureFactory({ furnitureObj }) {
   const pivotRef = useRef();
-  const chairRef = useRef();
+  const furnitureRef = useRef();
   const boundary = useRef(new Vector3());
   const bbox = useStore((state) => state.bbox());
-  const scaleFurniture = useStore((state) => state.scaleFurniture);
-  const {activeId, setActiveId, setIsDragged, objects} = useStore();
+  const resizeFurniture = useStore((state) => state.resizeFurniture);
+  const activeId = useStore((state) => state.activeId);
+  const setActiveId = useStore((state) => state.setActiveId)
+  const setIsDragged = useStore((state) => state.setIsDragged)
 
   const beginingMatrix = useMemo(() => {
     const clampPosition = furnitureObj.position.clone().clamp(bbox.min, bbox.max);
@@ -25,19 +27,18 @@ export default function FurnitureFactory({ furnitureObj }) {
     );
   }, [furnitureObj.position]);
   const matrix = useRef(beginingMatrix);
-  const handleScale = (e) => {
-    scaleFurniture(furnitureObj.id, e.target.value);
-    // objects.find(i => i.id === furnitureObj.id).width = Number(e.target.value);
+  const handleScale = (e, dimension) => {
+    resizeFurniture(furnitureObj.id, dimension, e.target.value);
   };
 
   useLayoutEffect(() => {
-    box2.setFromObject(chairRef.current);
+    box2.setFromObject(furnitureRef.current);
     box2.getSize(boundary.current);
     boundary.current.multiplyScalar(0.5).negate().setY(0);
   }, [furnitureObj]);
 
   useLayoutEffect(() => {
-    box2.setFromObject(chairRef.current);
+    box2.setFromObject(furnitureRef.current);
     box2.getSize(boundary.current);
     boundary.current.multiplyScalar(0.5).negate().setY(0);
 
@@ -51,14 +52,14 @@ export default function FurnitureFactory({ furnitureObj }) {
     m4.setPosition(newPosition);
   }, [bbox]);
 
-  useHelper(chairRef, BoxHelper, "magenta");
+  useHelper(furnitureRef, BoxHelper, "magenta");
 
   return (
     <PivotControls
       ref={pivotRef}
       key={furnitureObj.id}
-      fixed
-      scale={100}
+      // fixed
+      scale={2}
       activeAxes={[true, false, true]}
       autoTransform={false}
       matrix={matrix.current}
@@ -67,7 +68,7 @@ export default function FurnitureFactory({ furnitureObj }) {
       onDrag={(m, md, mW, mWd) => {
         if (!matrix.current) return;
 
-        box2.setFromObject(chairRef.current);
+        box2.setFromObject(furnitureRef.current);
         box2.getSize(boundary.current);
         boundary.current.multiplyScalar(0.5).negate().setY(0);
 
@@ -85,9 +86,9 @@ export default function FurnitureFactory({ furnitureObj }) {
         setTimeout(() => setIsDragged(false), 0);
       }}
     >
-      <group ref={chairRef} key={`${furnitureObj.id}-gr`}>
+      <group ref={furnitureRef} key={`${furnitureObj.id}-gr`}>
         <Suspense>
-          <Center disableY>
+          {/*<Center>*/}
             {furnitureObj.id === activeId && (
               <Html position={[0, 1, 0]} center>
                 <div
@@ -100,14 +101,36 @@ export default function FurnitureFactory({ furnitureObj }) {
                 >
                   <p style={{margin: 0}}>{furnitureObj.name}</p>
                   <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
-                    <label htmlFor={furnitureObj.id}>Width</label>
+                    <label htmlFor={`${furnitureObj.id}_width`}>Width</label>
                     <input
                       style={{width: '40px'}}
                       type="number"
-                      id={furnitureObj.id}
+                      id={`${furnitureObj.id}_width`}
                       value={furnitureObj.width}
                       step={0.2}
-                      onChange={(e) => {handleScale(e)}}
+                      onChange={(e) => {handleScale(e, 'width')}}
+                    />
+                  </div>
+                  <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                    <label htmlFor={`${furnitureObj.id}_height`}>Height</label>
+                    <input
+                      style={{width: '40px'}}
+                      type="number"
+                      id={`${furnitureObj.id}_height`}
+                      value={furnitureObj.height}
+                      step={0.2}
+                      onChange={(e) => {handleScale(e, 'height')}}
+                    />
+                  </div>
+                  <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                    <label htmlFor={`${furnitureObj.id}_depth`}>Depth</label>
+                    <input
+                      style={{width: '40px'}}
+                      type="number"
+                      id={`${furnitureObj.id}_depth`}
+                      value={furnitureObj.depth}
+                      step={0.2}
+                      onChange={(e) => {handleScale(e, 'depth')}}
                     />
                   </div>
                 </div>
@@ -120,9 +143,13 @@ export default function FurnitureFactory({ furnitureObj }) {
                 e.stopPropagation();
                 setActiveId(e.eventObject.userData.id);
               }}
-              scale={[furnitureObj.width, 1, 1]}
+              dimensions={{
+                width: furnitureObj.width,
+                height: furnitureObj.height,
+                depth: furnitureObj.depth,
+              }}
             />
-          </Center>
+          {/*</Center>*/}
         </Suspense>
       </group>
     </PivotControls>
