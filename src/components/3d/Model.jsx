@@ -34,24 +34,24 @@ export default function Model({
     height: 0,
     depth: 0,
   },
-  castShadow = false,
-  receiveShadow = false,
+  castShadow = true,
+  receiveShadow = true,
 }) {
   const gltf = useGLTF(model);
   const scene = useMemo(() => gltf.scene.clone(true), []);
   const resizeFurniture = useStore((state) => state.resizeFurniture);
 
-  if (gltf) {
-    gltf.scene.traverse(obj => {
-      if (obj.isMesh) {
-        obj.receiveShadow = receiveShadow;
-        obj.castShadow = castShadow;
-      }
-    })
-  }
+  useLayoutEffect(() => {
+      scene.traverse(obj => {
+        if (obj.isMesh) {
+          obj.receiveShadow = receiveShadow;
+          obj.castShadow = castShadow;
+        }
+      })
+  }, [scene]);
 
   useEffect(() => {
-    gltf.scene.traverse(obj => {
+    scene.traverse(obj => {
       if(obj.isMesh) {
 
         if (obj.morphTargetDictionary?.width != null ) {
@@ -66,7 +66,7 @@ export default function Model({
         }
       }
     });
-  }, [gltf]);
+  }, [scene]);
 
   useLayoutEffect(() => {
     scene.traverse(obj => {
