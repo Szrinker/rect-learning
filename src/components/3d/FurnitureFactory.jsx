@@ -148,6 +148,8 @@ export default function FurnitureFactory({ furnitureObj }) {
                 height: furnitureObj.height,
                 depth: furnitureObj.depth,
               }}
+              receiveShadow={true}
+              castShadow={true}
             />
           {/*</Center>*/}
         </Suspense>

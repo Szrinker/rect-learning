@@ -14,11 +14,13 @@ function App() {
         style={{ background: "#333333" }}
         gl={{
           localClippingEnabled: true,
-          // preserveDrawingBuffer: true,
+          preserveDrawingBuffer: true,
+          logarithmicDepthBuffer: true,
         }}
+        shadows
         flat
       >
-        <Environment preset={'apartment'} />
+        <Environment preset={'night'} />
         <CustomCameraControls
           options={{
             minPolarAngle: 0,

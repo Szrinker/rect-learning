@@ -34,7 +34,7 @@ export default function Room({ wallClicker, floorClicker }) {
 
   return (
     <>
-      <Light castShadow position={[0, wallHeight - 0.3, 0]} intensity={1} />
+      <Light />
 
       <ThickWall
         key={'redWall'}
@@ -104,7 +104,6 @@ export default function Room({ wallClicker, floorClicker }) {
         width={roomSize.width}
         depth={roomSize.depth}
         position={[0, 0, 0]}
-        castShadow
         receiveShadow
         textureUrl={textureUrl}
         textureRepeatX={texRepeatX}

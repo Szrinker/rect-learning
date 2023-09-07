@@ -34,15 +34,26 @@ export default function Model({
     height: 0,
     depth: 0,
   },
+  castShadow = false,
+  receiveShadow = false,
 }) {
   const gltf = useGLTF(model);
   const scene = useMemo(() => gltf.scene.clone(true), []);
   const resizeFurniture = useStore((state) => state.resizeFurniture);
 
+  if (gltf) {
+    gltf.scene.traverse(obj => {
+      if (obj.isMesh) {
+        obj.receiveShadow = receiveShadow;
+        obj.castShadow = castShadow;
+      }
+    })
+  }
+
   useEffect(() => {
     gltf.scene.traverse(obj => {
       if(obj.isMesh) {
-        console.log(obj);
+
         if (obj.morphTargetDictionary?.width != null ) {
           resizeFurniture(id, 'width', Number(obj.userData.minWidth));
         }
