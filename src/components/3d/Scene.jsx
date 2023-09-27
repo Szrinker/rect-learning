@@ -1,8 +1,11 @@
-import {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import useStore from "../../store/useStore";
 import Room from "./Room.jsx";
 import FurnitureFactory from "./FurnitureFactory.jsx";
 import { Text, Line } from "@react-three/drei";
+import {EffectComposer, Outline, Select, Selection, SelectiveBloom} from '@react-three/postprocessing';
+import {BlendFunction, KernelSize, Resizer} from 'postprocessing';
+import {useFrame} from '@react-three/fiber';
 
 export default function Scene() {
   const roomSize = useStore((state) => state.roomSize());
@@ -11,6 +14,7 @@ export default function Scene() {
   const wallThickness = useStore((state) => state.wallThickness);
   const model = useStore((state) => state.model);
   const setActiveId = useStore((state) => state.setActiveId);
+  const activeId = useStore((state) => state.activeId);
 
   const halfX = roomSize.width / 2;
   const halfY = roomSize.height / 2;
@@ -50,10 +54,12 @@ export default function Scene() {
   }, [model]);
 
   return (
-    <>
-      <axesHelper />
+    <Selection>
+      <EffectComposer multisampling={8} autoClear={false}>
+        <Outline blur visibleEdgeColor="white" edgeStrength={100} width={1000} />
+      </EffectComposer>
 
-      <Room floorClicker={addChair} key="room"/>
+      <axesHelper />
 
       <group key="line1">
         <Line
@@ -121,9 +127,31 @@ export default function Scene() {
         </Text>
       </group>
 
+      <Room floorClicker={addChair} key="room"/>
+
       {objects.map((furniture) => (
-        <FurnitureFactory furnitureObj={furniture} key={`cf-${furniture?.id}`} />
+        // <Select enabled={activeId === furniture?.id} key={`cf-${furniture?.id}`}>
+          <FurnitureFactory furnitureObj={furniture} key={`cf-${furniture?.id}`} />
+        // </Select>
       ))}
-    </>
+
+      {/*<Box position={[-1, 5, 0]} />*/}
+      {/*<Box position={[1, 5, 0]} />*/}
+    </Selection>
   );
+}
+
+function Box(props) {
+  const ref = useRef()
+  const [hovered, hover] = useState(null)
+  console.log(hovered)
+  useFrame((state, delta) => (ref.current.rotation.x = ref.current.rotation.y += delta))
+  return (
+    <Select enabled={hovered}>
+      <mesh ref={ref} {...props} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>
+        <boxGeometry />
+        <meshStandardMaterial color="orange" />
+      </mesh>
+    </Select>
+  )
 }

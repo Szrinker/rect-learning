@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import React, { useRef } from 'react';
-import { useHelper } from '@react-three/drei';
+import {Sphere, useHelper} from '@react-three/drei';
+import {Selection, Select, EffectComposer, SelectiveBloom } from '@react-three/postprocessing';
+import {BlurPass, Resizer, KernelSize, BlendFunction} from 'postprocessing';
 import useStore from '../../store/useStore.js';
 
 export default function Light() {
@@ -11,25 +13,53 @@ export default function Light() {
   const directionalLightRef = useRef();
   const directionalLightShadowCameraRef = useRef();
 
-  useHelper(pointLightRef, THREE.PointLightHelper, 0.2, 0x000000);
-  useHelper(directionalLightRef, THREE.DirectionalLightHelper, 3, 'magenta');
-  useHelper(pointLightShadowCameraRef, THREE.CameraHelper);
-  useHelper(directionalLightShadowCameraRef, THREE.CameraHelper);
+  // useHelper(pointLightRef, THREE.PointLightHelper, 0.2, 0x000000);
+  // useHelper(directionalLightRef, THREE.DirectionalLightHelper, 3, 'magenta');
+  // useHelper(pointLightShadowCameraRef, THREE.CameraHelper);
+  // useHelper(directionalLightShadowCameraRef, THREE.CameraHelper);
 
   return (
     <>
-      <pointLight
-        castShadow
-        position={[0, wallHeight - 0.3, 0]}
-        ref={pointLightRef}
-        shadow-mapSize={[1024, 1024]}
-        shadow-bias={-0.0002}
-        shadow-normlaBias={0.003}
-        shadow-radius={5}
-        args={[0xffffff, 1.4, 0, 0.6]}
-      >
-        <perspectiveCamera ref={pointLightShadowCameraRef} args={[90, 1, 0.1, 100]} attach="shadow-camera" />
-      </pointLight>
+      {/*<EffectComposer autoClear={false}>*/}
+      {/*  <SelectiveBloom*/}
+      {/*    lights={[pointLightRef]}*/}
+      {/*    // selection={[pointLightRef]}*/}
+      {/*    // selectionLayer={100}*/}
+      {/*    // intensity={1.0}*/}
+      {/*    // width={Resizer.AUTO_SIZE}*/}
+      {/*    // height={Resizer.AUTO_SIZE}*/}
+      {/*    // kernelSize={KernelSize.LARGE}*/}
+      {/*    // luminanceThreshold={0.5}*/}
+      {/*    // luminanceSmoothing={0.0025}*/}
+      {/*  />*/}
+      {/*</EffectComposer>*/}
+      {/*<Select>*/}
+        <pointLight
+          castShadow
+          position={[0, wallHeight - 0.3, 0]}
+          ref={pointLightRef}
+          shadow-mapSize={[1024, 1024]}
+          shadow-bias={-0.0002}
+          shadow-normlaBias={0.003}
+          shadow-radius={5}
+          args={[0xffffff, 1.4, 0, 0.6]}
+        >
+          <Sphere args={[0.069]} >
+            {/*<meshPhysicalMaterial*/}
+            {/*  transparent={true}*/}
+            {/*  opacity={0.8}*/}
+            {/*  roughness={0}*/}
+            {/*  metalness={0}*/}
+            {/*  reflectivity={0}*/}
+            {/*  clearcoat={1}*/}
+            {/*  clearcoatRoughness={1}*/}
+            {/*  color="white"*/}
+            {/*/>*/}
+          </Sphere>
+          <perspectiveCamera ref={pointLightShadowCameraRef} args={[90, 1, 0.1, 100]} attach="shadow-camera" />
+        </pointLight>
+      {/*</Select>*/}
+
 
       <directionalLight
         castShadow

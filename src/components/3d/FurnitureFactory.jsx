@@ -1,14 +1,16 @@
-import { useRef, Suspense, useLayoutEffect, useMemo } from "react";
+import {useRef, Suspense, useLayoutEffect, useMemo, useState} from 'react';
 import { PivotControls, useHelper, Center, Html } from "@react-three/drei";
 import { Box3, BoxHelper, Matrix4, Vector3 } from "three";
 import useStore from "../../store/useStore.js";
 import Model from "./Model.jsx";
+import {Select} from '@react-three/postprocessing';
 
 const vector3 = new Vector3();
 const box1 = new Box3();
 const box2 = new Box3();
 
 export default function FurnitureFactory({ furnitureObj }) {
+  const [hovered, hover] = useState(null);
   const pivotRef = useRef();
   const furnitureRef = useRef();
   const boundary = useRef(new Vector3());
@@ -52,7 +54,7 @@ export default function FurnitureFactory({ furnitureObj }) {
     m4.setPosition(newPosition);
   }, [bbox]);
 
-  useHelper(furnitureRef, BoxHelper, "magenta");
+  // useHelper(furnitureRef, BoxHelper, "magenta");
 
   return (
     <PivotControls
@@ -136,6 +138,7 @@ export default function FurnitureFactory({ furnitureObj }) {
                 </div>
               </Html>
             )}
+          <Select enabled={furnitureObj.id === activeId}>
             <Model
               id={furnitureObj.id}
               model={furnitureObj.model}
@@ -143,6 +146,8 @@ export default function FurnitureFactory({ furnitureObj }) {
                 e.stopPropagation();
                 setActiveId(e.eventObject.userData.id);
               }}
+              onPointerOver={() => hover(true)}
+              onPointerOut={() => hover(false)}
               dimensions={{
                 width: furnitureObj.width,
                 height: furnitureObj.height,
@@ -151,6 +156,7 @@ export default function FurnitureFactory({ furnitureObj }) {
               receiveShadow={true}
               castShadow={true}
             />
+          </Select>
           {/*</Center>*/}
         </Suspense>
       </group>
