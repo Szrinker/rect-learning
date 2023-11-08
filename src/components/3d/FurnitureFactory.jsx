@@ -19,6 +19,7 @@ export default function FurnitureFactory({ furnitureObj }) {
   const activeId = useStore((state) => state.activeId);
   const setActiveId = useStore((state) => state.setActiveId)
   const setIsDragged = useStore((state) => state.setIsDragged)
+  const furnitureResizer = useStore((state) => state.furnitureResizer);
 
   const beginingMatrix = useMemo(() => {
     const clampPosition = furnitureObj.position.clone().clamp(bbox.min, bbox.max);
@@ -91,7 +92,7 @@ export default function FurnitureFactory({ furnitureObj }) {
       <group ref={furnitureRef} key={`${furnitureObj.id}-gr`}>
         <Suspense>
           {/*<Center>*/}
-            {furnitureObj.id === activeId && (
+            {furnitureResizer && furnitureObj.id === activeId && (
               <Html position={[0, 1, 0]} center>
                 <div
                   style={{

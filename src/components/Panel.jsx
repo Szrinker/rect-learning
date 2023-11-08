@@ -5,6 +5,10 @@ import RangeInput from './gui/RangeInput';
 export default function Panel() {
   const wallThickness = useStore((state) => state.wallThickness);
   const setWallThickness = useStore((state) => state.setWallThickness);
+  const factory = useStore((state) => state.factory);
+  const setFactory = useStore((state) => state.setFactory);
+  const furnitureResizer = useStore((state) => state.furnitureResizer);
+  const setFurnitureResizer = useStore((state) => state.setFurnitureResizer);
   const model = useStore((state) => state.model);
   const setModel = useStore((state) => state.setModel);
   const [value, setValue] = useState(wallThickness);
@@ -13,6 +17,13 @@ export default function Panel() {
     setValue(val);
     setWallThickness(Number(val));
   };
+  const handleFactoryChange = (e) => {
+    setFactory(e.target.checked);
+  }
+
+  const handleResizerChange = (e) => {
+    setFurnitureResizer(e.target.checked);
+  }
 
   return (
     <div className="panel">
@@ -65,6 +76,24 @@ export default function Panel() {
             <option value="cabinet_width">Cabinet width</option>
             <option value="cabinet_allmorphs">Cabinet all</option>
           </select>
+        </div>
+        <div className="slider-container">
+          <label htmlFor="factory">Enable Factory</label>
+          <input
+            id="factory"
+            type="checkbox"
+            onChange={handleFactoryChange}
+            checked={factory}
+          />
+        </div>
+        <div className="slider-container">
+          <label htmlFor="factory">Enable Resizer</label>
+          <input
+            id="factory"
+            type="checkbox"
+            onChange={handleResizerChange}
+            checked={furnitureResizer}
+          />
         </div>
       </div>
     </div>

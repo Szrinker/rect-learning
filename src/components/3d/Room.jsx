@@ -41,7 +41,7 @@ export default function Room({ wallClicker, floorClicker }) {
         geometry={[roomSize.width + wallThickness * 2, wallHeight, wallThickness]}
         position={[0, halfY, -halfZ - wallThickness / 2]}
         rotation={[0, 0, 0]}
-        color={0xff0000}
+        color={0xeeeeee}
         width={roomSize.width}
         ref={wallRed}
         thickness={wallThickness}
@@ -56,7 +56,7 @@ export default function Room({ wallClicker, floorClicker }) {
         geometry={[roomSize.depth + wallThickness * 2, wallHeight, wallThickness]}
         position={[-halfX - wallThickness / 2, halfY, 0]}
         rotation={[0, Math.PI/2, 0]}
-        color={0x08000}
+        color={0xeeeeee}
         width={roomSize.depth}
         ref={wallGreen}
         thickness={wallThickness}
@@ -71,7 +71,7 @@ export default function Room({ wallClicker, floorClicker }) {
         geometry={[roomSize.width + wallThickness * 2, wallHeight, wallThickness]}
         position={[0, halfY, halfZ + wallThickness / 2]}
         rotation={[0, -Math.PI, 0]}
-        color={0x0000ff}
+        color={0xeeeeee}
         width={roomSize.width}
         ref={wallBlue}
         thickness={wallThickness}
@@ -86,7 +86,7 @@ export default function Room({ wallClicker, floorClicker }) {
         geometry={[roomSize.depth + wallThickness * 2, wallHeight, wallThickness]}
         position={[halfX + wallThickness / 2, halfY, 0]}
         rotation={[0, -Math.PI/2, 0]}
-        color={0xffff00}
+        color={0xeeeeee}
         width={roomSize.depth}
         ref={wallYellow}
         thickness={wallThickness}
