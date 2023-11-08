@@ -3,6 +3,8 @@ import {Environment} from '@react-three/drei';
 import CustomCameraControls from "./components/3d/CustomCameraControls";
 import Panel from "./components/Panel";
 import Scene from "./components/3d/Scene";
+import Postprocessing from './components/3d/Postprocessing.jsx';
+import { Selection } from '@react-three/postprocessing';
 
 function App() {
   return (
@@ -29,7 +31,10 @@ function App() {
           }}
         />
         <ambientLight intensity={0.25} />
-        <Scene />
+        <Selection>
+          <Postprocessing />
+          <Scene />
+        </Selection>
       </Canvas>
     </>
   );
