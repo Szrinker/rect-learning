@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/csg": "^3.1.0",
     "@react-three/drei": "^9.88.11",
     "@react-three/fiber": "^8.15.10",
     "@react-three/postprocessing": "^2.15.10",
