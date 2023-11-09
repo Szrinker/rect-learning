@@ -16,8 +16,9 @@ function App() {
         style={{ background: "#333333" }}
         gl={{
           localClippingEnabled: true,
-          preserveDrawingBuffer: true,
-          logarithmicDepthBuffer: true,
+          antialias: false,
+          // preserveDrawingBuffer: true,
+          // logarithmicDepthBuffer: true,
         }}
         shadows
         flat

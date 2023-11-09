@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import React, { useRef } from 'react';
 import {Sphere, useHelper} from '@react-three/drei';
-import {Selection, Select, EffectComposer, SelectiveBloom } from '@react-three/postprocessing';
-import {BlurPass, Resizer, KernelSize, BlendFunction} from 'postprocessing';
 import useStore from '../../store/useStore.js';
 
 export default function Light() {
@@ -20,20 +18,6 @@ export default function Light() {
 
   return (
     <>
-      {/*<EffectComposer autoClear={false}>*/}
-      {/*  <SelectiveBloom*/}
-      {/*    lights={[pointLightRef]}*/}
-      {/*    // selection={[pointLightRef]}*/}
-      {/*    // selectionLayer={100}*/}
-      {/*    // intensity={1.0}*/}
-      {/*    // width={Resizer.AUTO_SIZE}*/}
-      {/*    // height={Resizer.AUTO_SIZE}*/}
-      {/*    // kernelSize={KernelSize.LARGE}*/}
-      {/*    // luminanceThreshold={0.5}*/}
-      {/*    // luminanceSmoothing={0.0025}*/}
-      {/*  />*/}
-      {/*</EffectComposer>*/}
-      {/*<Select>*/}
         <pointLight
           castShadow
           position={[0, wallHeight - 0.3, 0]}
@@ -44,7 +28,7 @@ export default function Light() {
           shadow-radius={5}
           args={[0xffffff, 1.4, 0, 0.6]}
         >
-          <Sphere args={[0.069]} >
+          {/*<Sphere args={[0.069]} >*/}
             {/*<meshPhysicalMaterial*/}
             {/*  transparent={true}*/}
             {/*  opacity={0.8}*/}
@@ -55,10 +39,9 @@ export default function Light() {
             {/*  clearcoatRoughness={1}*/}
             {/*  color="white"*/}
             {/*/>*/}
-          </Sphere>
+          {/*</Sphere>*/}
           <perspectiveCamera ref={pointLightShadowCameraRef} args={[90, 1, 0.1, 100]} attach="shadow-camera" />
         </pointLight>
-      {/*</Select>*/}
 
 
       <directionalLight
