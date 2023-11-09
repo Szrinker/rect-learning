@@ -28,18 +28,21 @@ export default function Light() {
           shadow-radius={5}
           args={[0xffffff, 1.4, 0, 0.6]}
         >
-          {/*<Sphere args={[0.069]} >*/}
-            {/*<meshPhysicalMaterial*/}
-            {/*  transparent={true}*/}
-            {/*  opacity={0.8}*/}
-            {/*  roughness={0}*/}
-            {/*  metalness={0}*/}
-            {/*  reflectivity={0}*/}
-            {/*  clearcoat={1}*/}
-            {/*  clearcoatRoughness={1}*/}
-            {/*  color="white"*/}
-            {/*/>*/}
-          {/*</Sphere>*/}
+          <Sphere args={[0.069]} >
+            <meshPhysicalMaterial
+              // transparent={true}
+              // opacity={0.8}
+              // roughness={0}
+              // metalness={0}
+              // reflectivity={0}
+              // clearcoat={1}
+              // clearcoatRoughness={1}
+              color="white"
+              emissive="white"
+              emissiveIntensity={6}
+              toneMapped={false}
+            />
+          </Sphere>
           <perspectiveCamera ref={pointLightShadowCameraRef} args={[90, 1, 0.1, 100]} attach="shadow-camera" />
         </pointLight>
 
