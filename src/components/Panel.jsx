@@ -87,9 +87,9 @@ export default function Panel() {
           />
         </div>
         <div className="slider-container">
-          <label htmlFor="factory">Enable Resizer</label>
+          <label htmlFor="resizer">Enable Resizer</label>
           <input
-            id="factory"
+            id="resizer"
             type="checkbox"
             onChange={handleResizerChange}
             checked={furnitureResizer}

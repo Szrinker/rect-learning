@@ -10,12 +10,15 @@ export default function Scene() {
   const addObject = useStore((state) => state.addObject);
   const model = useStore((state) => state.model);
   const setActiveId = useStore((state) => state.setActiveId);
+  const setActiveWall = useStore((state) => state.setActiveWall);
   const activeId = useStore((state) => state.activeId);
+  const activeWall = useStore((state) => state.activeWall);
 
   useEffect(() => {
     const handleKey = e => {
       if (e.key === 'Escape') {
         setActiveId(null);
+        setActiveWall(null);
       }
     };
 
@@ -34,7 +37,10 @@ export default function Scene() {
       return;
     }
 
+    setActiveWall(null);
+
     if (!factory) return;
+
 
     const { point, normal, object } = e.intersections[0];
     const id = crypto.randomUUID();
@@ -55,8 +61,11 @@ export default function Scene() {
   return (
     <>
       <axesHelper />
-      <Lines />
-      <Room floorClicker={addChair} key="room"/>
+      {/*<Lines />*/}
+      <Room
+        floorClicker={addChair}
+        key="room"
+      />
 
       {objects.map((furniture) => (
           <FurnitureFactory furnitureObj={furniture} key={`cf-${furniture?.id}`} />

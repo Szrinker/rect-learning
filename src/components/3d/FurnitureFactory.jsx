@@ -18,8 +18,10 @@ export default function FurnitureFactory({ furnitureObj }) {
   const resizeFurniture = useStore((state) => state.resizeFurniture);
   const activeId = useStore((state) => state.activeId);
   const setActiveId = useStore((state) => state.setActiveId)
+  const setActiveWall = useStore((state) => state.setActiveWall)
   const setIsDragged = useStore((state) => state.setIsDragged)
   const furnitureResizer = useStore((state) => state.furnitureResizer);
+  const removeObject = useStore((state) => state.removeObject);
 
   const beginingMatrix = useMemo(() => {
     const clampPosition = furnitureObj.position.clone().clamp(bbox.min, bbox.max);
@@ -33,6 +35,11 @@ export default function FurnitureFactory({ furnitureObj }) {
   const handleScale = (e, dimension) => {
     resizeFurniture(furnitureObj.id, dimension, e.target.value);
   };
+
+  const handleRemoveObj = (obj) => {
+    removeObject(obj);
+    setActiveId(null);
+  }
 
   useLayoutEffect(() => {
     box2.setFromObject(furnitureRef.current);
@@ -92,8 +99,8 @@ export default function FurnitureFactory({ furnitureObj }) {
       <group ref={furnitureRef} key={`${furnitureObj.id}-gr`}>
         <Suspense>
           {/*<Center>*/}
-            {furnitureResizer && furnitureObj.id === activeId && (
-              <Html position={[0, 1, 0]} center>
+            {furnitureObj.id === activeId && (
+              <Html position={[0, 2, 0]} center>
                 <div
                   style={{
                     background: 'rgba(0,0,0,0.7)',
@@ -102,40 +109,52 @@ export default function FurnitureFactory({ furnitureObj }) {
                     padding: '5px',
                   }}
                 >
-                  <p style={{margin: 0}}>{furnitureObj.name}</p>
-                  <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
-                    <label htmlFor={`${furnitureObj.id}_width`}>Width</label>
-                    <input
-                      style={{width: '40px'}}
-                      type="number"
-                      id={`${furnitureObj.id}_width`}
-                      value={furnitureObj.width}
-                      step={0.2}
-                      onChange={(e) => {handleScale(e, 'width')}}
-                    />
-                  </div>
-                  <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
-                    <label htmlFor={`${furnitureObj.id}_height`}>Height</label>
-                    <input
-                      style={{width: '40px'}}
-                      type="number"
-                      id={`${furnitureObj.id}_height`}
-                      value={furnitureObj.height}
-                      step={0.2}
-                      onChange={(e) => {handleScale(e, 'height')}}
-                    />
-                  </div>
-                  <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
-                    <label htmlFor={`${furnitureObj.id}_depth`}>Depth</label>
-                    <input
-                      style={{width: '40px'}}
-                      type="number"
-                      id={`${furnitureObj.id}_depth`}
-                      value={furnitureObj.depth}
-                      step={0.2}
-                      onChange={(e) => {handleScale(e, 'depth')}}
-                    />
-                  </div>
+                  <p style={{margin: 0}}>
+                    {furnitureObj.name}
+                  </p>
+                  <button onClick={(e) => {
+                    e.preventDefault();
+                    handleRemoveObj(furnitureObj.id);
+                  }}>
+                    delete
+                  </button>
+                  {furnitureResizer && (
+                    <>
+                      <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                        <label htmlFor={`${furnitureObj.id}_width`}>Width</label>
+                        <input
+                          style={{width: '40px'}}
+                          type="number"
+                          id={`${furnitureObj.id}_width`}
+                          value={furnitureObj.width}
+                          step={0.2}
+                          onChange={(e) => {handleScale(e, 'width')}}
+                        />
+                      </div>
+                      <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                        <label htmlFor={`${furnitureObj.id}_height`}>Height</label>
+                        <input
+                          style={{width: '40px'}}
+                          type="number"
+                          id={`${furnitureObj.id}_height`}
+                          value={furnitureObj.height}
+                          step={0.2}
+                          onChange={(e) => {handleScale(e, 'height')}}
+                        />
+                      </div>
+                      <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+                        <label htmlFor={`${furnitureObj.id}_depth`}>Depth</label>
+                        <input
+                          style={{width: '40px'}}
+                          type="number"
+                          id={`${furnitureObj.id}_depth`}
+                          value={furnitureObj.depth}
+                          step={0.2}
+                          onChange={(e) => {handleScale(e, 'depth')}}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
               </Html>
             )}
@@ -146,6 +165,7 @@ export default function FurnitureFactory({ furnitureObj }) {
               onClick={(e) => {
                 e.stopPropagation();
                 setActiveId(e.eventObject.userData.id);
+                setActiveWall(null);
               }}
               onPointerOver={() => hover(true)}
               onPointerOut={() => hover(false)}

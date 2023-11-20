@@ -5,23 +5,34 @@ import Panel from "./components/Panel";
 import Scene from "./components/3d/Scene";
 import Postprocessing from './components/3d/Postprocessing.jsx';
 import { Selection } from '@react-three/postprocessing';
+import useStore from './store/useStore.js';
 
 function App() {
+  const setActiveId = useStore((state) => state.setActiveId);
+  const setActiveWall = useStore((state) => state.setActiveWall);
+  const handleMissClick = (e) => {
+    if (e.target.localName === 'canvas') {
+      setActiveId(null);
+      setActiveWall(null);
+    }
+  }
+
   return (
     <>
       <Panel />
       <Canvas
         className="canvas"
         camera={{ position: [2, 2, 2] }}
+        frameloop={'demand'}
         style={{ background: "#333333" }}
         gl={{
           localClippingEnabled: true,
-          antialias: false,
-          // preserveDrawingBuffer: true,
-          // logarithmicDepthBuffer: true,
+          preserveDrawingBuffer: true,
+          logarithmicDepthBuffer: true,
         }}
         shadows
         flat
+        onPointerMissed={e => handleMissClick(e)}
       >
         <Environment preset={'night'} />
         <CustomCameraControls

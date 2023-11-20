@@ -65,19 +65,29 @@ const useStore = create(
         objects: [],
         activeId: null,
         isDragged: false,
-        factory: true,
-        furnitureResizer: true,
+        factory: false,
+        furnitureResizer: false,
+        activeWall: null,
+        holedWalls: [],
         setFactory: (value) => set((state) => ({factory: value})),
         setFurnitureResizer: (value) => set((state) => ({furnitureResizer: value})),
         setScale: (value) => set((state) => ({ scale: value })),
         setWallThickness: (value) => set((state) => ({wallThickness: value})),
         addObject: (value) =>
           set((state) => ({ objects: [...state.objects, value] })),
+        removeObject: (value) => set((state) => ({
+          objects: state.objects.filter(obj => obj.id !== value)
+        })),
         setActiveId: (value) => set((state) => ({ activeId: value })),
         setIsDragged: (value) => set((state) => ({ isDragged: value })),
         setModel: (value) => set((state) => ({model: value})),
         resizeFurniture: (id, dimension, value) => set((state) => ({
           objects: state.objects.map((o) => o.id === id ? { ...o, [dimension]: Number(value) } : o),
+        })),
+        setActiveWall: (value) => set((state) => ({ activeWall: value })),
+        addHoledWalls: (value) => set((state) => ({ holedWalls: [...state.holedWalls, value] })),
+        removeHole: (value) => set((state) => ({
+          holedWalls: state.holedWalls.filter(w => w.id !== value)
         })),
       }),
       computedState,

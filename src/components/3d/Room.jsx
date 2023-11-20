@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import Wall from './Wall.jsx';
+// import Wall from './Wall.jsx';
 import ThickWall from './ThickWall.jsx';
 import Floor from './Floor.jsx';
 import Light from './Light.jsx';
 import useStore from '../../store/useStore';
-import {useFrame, useThree} from "@react-three/fiber";
+// import {useFrame, useThree} from "@react-three/fiber";
 
 export default function Room({ wallClicker, floorClicker }) {
   const {scale, wallThickness} = useStore();
@@ -19,18 +19,18 @@ export default function Room({ wallClicker, floorClicker }) {
   const texRepeatX = scale.x;
   const texRepeatY = scale.z;
 
-  const { camera } = useThree();
+  // const { camera } = useThree();
   const wallRed = useRef();
   const wallGreen = useRef();
   const wallBlue = useRef();
   const wallYellow = useRef();
 
-  useFrame(() => {
-    wallRed.current.visible = camera.position.z > -(roomSize.depth / 2 + wallThickness/2);
-    wallGreen.current.visible = camera.position.x > -(roomSize.width / 2 + wallThickness/2);
-    wallBlue.current.visible = camera.position.z < (roomSize.depth / 2 + wallThickness/2);
-    wallYellow.current.visible = camera.position.x < (roomSize.width / 2 + wallThickness/2);
-  });
+  // useFrame(() => {
+  //   wallRed.current.visible = camera.position.z > -(roomSize.depth / 2 + wallThickness/2);
+  //   wallGreen.current.visible = camera.position.x > -(roomSize.width / 2 + wallThickness/2);
+  //   wallBlue.current.visible = camera.position.z < (roomSize.depth / 2 + wallThickness/2);
+  //   wallYellow.current.visible = camera.position.x < (roomSize.width / 2 + wallThickness/2);
+  // });
 
   return (
     <>
@@ -38,6 +38,7 @@ export default function Room({ wallClicker, floorClicker }) {
 
       <ThickWall
         key={'redWall'}
+        name={'redWall'}
         geometry={[roomSize.width + wallThickness * 2, wallHeight, wallThickness]}
         position={[0, halfY, -halfZ - wallThickness / 2]}
         rotation={[0, 0, 0]}
@@ -53,6 +54,7 @@ export default function Room({ wallClicker, floorClicker }) {
 
       <ThickWall
         key={'greenWall'}
+        name={'greenWall'}
         geometry={[roomSize.depth + wallThickness * 2, wallHeight, wallThickness]}
         position={[-halfX - wallThickness / 2, halfY, 0]}
         rotation={[0, Math.PI/2, 0]}
@@ -68,6 +70,7 @@ export default function Room({ wallClicker, floorClicker }) {
 
       <ThickWall
         key={'blueWall'}
+        name={'blueWall'}
         geometry={[roomSize.width + wallThickness * 2, wallHeight, wallThickness]}
         position={[0, halfY, halfZ + wallThickness / 2]}
         rotation={[0, -Math.PI, 0]}
@@ -83,6 +86,7 @@ export default function Room({ wallClicker, floorClicker }) {
 
       <ThickWall
         key={'yellowWall'}
+        name={'yellowWall'}
         geometry={[roomSize.depth + wallThickness * 2, wallHeight, wallThickness]}
         position={[halfX + wallThickness / 2, halfY, 0]}
         rotation={[0, -Math.PI/2, 0]}
@@ -93,6 +97,7 @@ export default function Room({ wallClicker, floorClicker }) {
         height={wallHeight}
         receiveShadow
         castShadow
+        // doors
         // onClick={wallClicker}
       />
 
