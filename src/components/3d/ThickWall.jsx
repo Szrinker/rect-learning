@@ -1,12 +1,41 @@
 import {
   Vector3,
   Plane,
-  BackSide
+  BackSide,
+  BoxGeometry
 } from "three";
 import React, {useRef, useLayoutEffect, useState, useCallback} from 'react';
-import { PivotControls, useHelper, Center, Html } from "@react-three/drei";
-import { Geometry, Base, Subtraction, Addition } from '@react-three/csg';
+import { Html } from "@react-three/drei";
+import { Geometry, Base, Subtraction } from '@react-three/csg';
 import useStore from '../../store/useStore.js';
+import GlassDoor from './GlassDoor.jsx';
+import { useSpring, animated, config } from '@react-spring/three'
+import {useThree} from '@react-three/fiber';
+
+const box = new BoxGeometry();
+const Door = (props) => (
+  <Subtraction {...props}>
+    <Geometry>
+      <Base geometry={box} scale={[1, 2, 1]} />
+    </Geometry>
+  </Subtraction>
+)
+
+function calculateRotation(rotationArr = [0, 0, 0], axis = 'x', radianValue) {
+  switch (axis) {
+    case 'x':
+      rotationArr[0] += radianValue;
+      break;
+    case 'y':
+      rotationArr[1] += radianValue;
+      break;
+    case 'z':
+      rotationArr[2] += radianValue;
+      break;
+  }
+
+  return rotationArr;
+}
 
 function ThickWall({
   rotation = [0, 0, 0],
@@ -26,13 +55,19 @@ function ThickWall({
   const ref1 = useRef();
   const ref2 = useRef();
   const refBox = useRef();
+  const csg = useRef();
   const [hovered, setHovered] = useState(false);
+  const [clickedDoor, setClickedDoor] = useState(false);
   const activeWall = useStore((state) => state.activeWall);
   const setActiveWall = useStore((state) => state.setActiveWall);
   const setActiveId = useStore((state) => state.setActiveId)
   const holedWalls = useStore((state) => state.holedWalls);
   const addHoledWalls = useStore((state) => state.addHoledWalls);
   const removeHole = useStore((state) => state.removeHole);
+  const invalidateRenderLoop = useThree(state => state.invalidate);
+
+  const wallId = ref?.current?.uuid;
+  const holedWall = holedWalls.find(w => w.id === wallId);
 
   useLayoutEffect(() => {
     ref.current.updateMatrixWorld();
@@ -50,11 +85,22 @@ function ThickWall({
   }, [width, thickness, geometry, rotation]);
 
   const handleAddHole = useCallback((e) => {
-    const id = ref?.current?.uuid;
+    e.preventDefault();
 
     addHoledWalls({
-      id: id
+      id: wallId,
+      name: name,
+      position: 0,
+      width: 1,
+      door: false,
     });
+  });
+
+  const defaultRotation = [0, 0, 0];
+  const doorOpen = useSpring({
+    rotation: clickedDoor ? calculateRotation(defaultRotation, 'y', -0.75) : defaultRotation,
+    config: config.wobbly,
+    onChange: () => invalidateRenderLoop(),
   });
 
   return (
@@ -83,11 +129,48 @@ function ThickWall({
         receiveShadow={receiveShadow}
         onClick={onClick}
       >
-        <meshBasicMaterial
-          color={'black'}
-          side={BackSide}
-        />
-        <boxGeometry args={geometry} />
+        {holedWall ? (
+          <>
+            <Geometry ref={csg}>
+              <Base
+                name={name}
+                geometry={new BoxGeometry(geometry[0], geometry[1], geometry[2])}
+              />
+              <Door position={[holedWall.position, -0.245, 0]} scale={[holedWall.width, 2, 1]} />
+              {holedWall.door && (
+                <animated.group
+                  rotation={doorOpen.rotation}
+                >
+                  <GlassDoor
+                    position={[holedWall.position, -0.245, 0]}
+                    scale={[holedWall.width, 2, thickness]}
+                    color={'#abc9ff'}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setClickedDoor(prevState => !prevState)
+                    }}
+                    onPointerOver={ (e) => {
+                      e.stopPropagation();
+                      setHovered(false);
+                    }}
+                  />
+                </animated.group>
+              )}
+            </Geometry>
+            <meshBasicMaterial
+              color={'black'}
+              side={BackSide}
+            />
+          </>
+        ) : (
+          <>
+            <meshBasicMaterial
+              color={'black'}
+              side={BackSide}
+            />
+            <boxGeometry args={geometry} />
+          </>
+        )}
       </mesh>
 
       <mesh
@@ -97,18 +180,34 @@ function ThickWall({
         onClick={onClick}
         receiveShadow={receiveShadow}
       >
-        <meshPhysicalMaterial
-          ref={ref2}
-          color={activeWall === ref?.current?.uuid ? '#5381d3' : color}
-          emissive={hovered ? '#1a5b5b' : '#000000'}
-        />
-        <boxGeometry args={geometry} ref={refBox} />
-        {/*<Geometry ref={refBox} computeVertexNormals showOperations>*/}
-        {/*  <Base geometry={geometry} />*/}
-
-        {/*</Geometry>*/}
+        {holedWall ? (
+          <>
+            <Geometry ref={csg}>
+              <Base
+                name={name}
+                geometry={new BoxGeometry(geometry[0], geometry[1], geometry[2])}
+                ref={refBox}
+              />
+              <Door position={[holedWall.position, -0.245, 0]} scale={[holedWall.width, 2, 1]} />
+            </Geometry>
+            <meshPhysicalMaterial
+              ref={ref2}
+              color={activeWall === wallId ? '#5381d3' : color}
+              emissive={hovered ? '#1a5b5b' : '#000000'}
+            />
+          </>
+        ) : (
+          <>
+            <meshPhysicalMaterial
+              ref={ref2}
+              color={activeWall === wallId ? '#5381d3' : color}
+              emissive={hovered ? '#1a5b5b' : '#000000'}
+            />
+            <boxGeometry args={geometry} ref={refBox} />
+          </>
+        )}
       </mesh>
-      {activeWall === ref?.current?.uuid && (
+      {activeWall === wallId && (
           <Html center position={[0, (height + 1) /2, 0]}>
             <div
               style={{
@@ -118,7 +217,7 @@ function ThickWall({
                 padding: '5px',
               }}
             >
-              <p style={{margin: 0}}>test</p>
+              <p style={{margin: '0 0 5px', textAlign: 'center'}}>{name}</p>
               <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
                 {
                   holedWalls.find(w => w.id === ref?.current?.uuid)

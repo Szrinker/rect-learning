@@ -97,7 +97,6 @@ export default function Room({ wallClicker, floorClicker }) {
         height={wallHeight}
         receiveShadow
         castShadow
-        // doors
         // onClick={wallClicker}
       />
 

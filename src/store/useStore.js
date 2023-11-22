@@ -89,6 +89,17 @@ const useStore = create(
         removeHole: (value) => set((state) => ({
           holedWalls: state.holedWalls.filter(w => w.id !== value)
         })),
+        updateHole: (value) => set((state) => {
+          let currentHoles = state.holedWalls.map((hd) =>
+            hd.id === value.id ?
+              value :
+              currentHoles
+          );
+
+          return {
+            holedWalls: currentHoles
+          }
+        }),
       }),
       computedState,
     ),
