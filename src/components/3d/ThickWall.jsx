@@ -16,7 +16,7 @@ const box = new BoxGeometry();
 const Door = (props) => (
   <Subtraction {...props}>
     <Geometry>
-      <Base geometry={box} scale={[1, 2, 1]} />
+      <Base geometry={box} />
     </Geometry>
   </Subtraction>
 )
@@ -68,6 +68,9 @@ function ThickWall({
 
   const wallId = ref?.current?.uuid;
   const holedWall = holedWalls.find(w => w.id === wallId);
+
+  const holeDoorPos = [holedWall?.position, -height/2 + 1, 0];
+  const holeDoorScale = [holedWall?.width, 2, thickness];
 
   useLayoutEffect(() => {
     ref.current.updateMatrixWorld();
@@ -136,14 +139,23 @@ function ThickWall({
                 name={name}
                 geometry={new BoxGeometry(geometry[0], geometry[1], geometry[2])}
               />
-              <Door position={[holedWall.position, -0.245, 0]} scale={[holedWall.width, 2, 1]} />
-              {holedWall.door && (
-                <animated.group
-                  rotation={doorOpen.rotation}
+              <Door position={holeDoorPos} scale={holeDoorScale} />
+            </Geometry>
+            <meshBasicMaterial
+              color={'black'}
+              side={BackSide}
+            />
+            {holedWall.door && (
+              <animated.group
+                rotation={doorOpen.rotation}
+                position={[holedWall.width/2, 0, 0]}
+              >
+                <group
+                  position={[-holedWall.width/2, 0, 0]}
                 >
                   <GlassDoor
-                    position={[holedWall.position, -0.245, 0]}
-                    scale={[holedWall.width, 2, thickness]}
+                    position={holeDoorPos}
+                    scale={holeDoorScale}
                     color={'#abc9ff'}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -154,13 +166,9 @@ function ThickWall({
                       setHovered(false);
                     }}
                   />
-                </animated.group>
-              )}
-            </Geometry>
-            <meshBasicMaterial
-              color={'black'}
-              side={BackSide}
-            />
+                </group>
+              </animated.group>
+            )}
           </>
         ) : (
           <>
@@ -188,7 +196,10 @@ function ThickWall({
                 geometry={new BoxGeometry(geometry[0], geometry[1], geometry[2])}
                 ref={refBox}
               />
-              <Door position={[holedWall.position, -0.245, 0]} scale={[holedWall.width, 2, 1]} />
+              <Door
+                position={holeDoorPos}
+                scale={holeDoorScale}
+              />
             </Geometry>
             <meshPhysicalMaterial
               ref={ref2}

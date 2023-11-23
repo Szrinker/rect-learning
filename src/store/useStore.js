@@ -93,7 +93,7 @@ const useStore = create(
           let currentHoles = state.holedWalls.map((hd) =>
             hd.id === value.id ?
               value :
-              currentHoles
+              hd
           );
 
           return {
