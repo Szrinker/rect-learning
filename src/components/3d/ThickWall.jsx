@@ -70,7 +70,8 @@ function ThickWall({
   const holedWall = holedWalls.find(w => w.id === wallId);
 
   const holeDoorPos = [holedWall?.position, -height/2 + 1, 0];
-  const holeDoorScale = [holedWall?.width, 2, thickness];
+  const holeDoorScale = [holedWall?.width, 2, thickness + 1];
+  const doorScale = [holedWall?.width, 2, thickness];
 
   useLayoutEffect(() => {
     ref.current.updateMatrixWorld();
@@ -101,7 +102,7 @@ function ThickWall({
 
   const defaultRotation = [0, 0, 0];
   const doorOpen = useSpring({
-    rotation: clickedDoor ? calculateRotation(defaultRotation, 'y', -0.75) : defaultRotation,
+    rotation: clickedDoor ? calculateRotation(defaultRotation, 'y', 0.75) : defaultRotation,
     config: config.wobbly,
     onChange: () => invalidateRenderLoop(),
   });
@@ -155,7 +156,7 @@ function ThickWall({
                 >
                   <GlassDoor
                     position={holeDoorPos}
-                    scale={holeDoorScale}
+                    scale={doorScale}
                     color={'#abc9ff'}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -194,12 +195,8 @@ function ThickWall({
               <Base
                 name={name}
                 geometry={new BoxGeometry(geometry[0], geometry[1], geometry[2])}
-                ref={refBox}
               />
-              <Door
-                position={holeDoorPos}
-                scale={holeDoorScale}
-              />
+              <Door position={holeDoorPos} scale={holeDoorScale} />
             </Geometry>
             <meshPhysicalMaterial
               ref={ref2}
