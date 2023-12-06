@@ -9,12 +9,12 @@ export default function RangeInput({
   axis = null,
 }) {
   const id = useId();
-  const {scale, setScale} = useStore();
-  const [value, setValue] = useState(min);
+  const scale = useStore(state => state.scale);
+  const setScale = useStore(state => state.setScale);
+
   const onChange = (e) => {
     const val = e.target.value;
     const newScale = { ...scale, [axis]: Number(val) };
-    setValue(val);
     setScale(newScale);
   };
 
@@ -29,9 +29,9 @@ export default function RangeInput({
           max={max}
           step={step}
           onChange={onChange}
-          value={value}
+          value={scale[axis]}
         />
-        <p>Value: {value}</p>
+        <p>Value: {scale[axis]}</p>
       </div>
     </>
   );

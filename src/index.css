@@ -14,12 +14,12 @@ body {
 #root {
   height: 100%;
   display: flex;
-  flex-direction: column;
 }
 
 .panel {
   padding: 1rem;
   background-color: #eee;
+  width: 33rem;
 }
 
 .canvas {
@@ -29,6 +29,8 @@ body {
 .inputs-wrapper {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .slider-container {

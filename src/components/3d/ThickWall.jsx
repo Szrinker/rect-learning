@@ -118,7 +118,7 @@ function ThickWall({
       }}
       onClick={ (e) => {
         e.stopPropagation();
-        setActiveWall(ref?.current?.uuid);
+        setActiveWall(name);
         setActiveId(null);
       }}
       onPointerOut={(e) => {
@@ -200,7 +200,7 @@ function ThickWall({
             </Geometry>
             <meshPhysicalMaterial
               ref={ref2}
-              color={activeWall === wallId ? '#5381d3' : color}
+              color={activeWall === name ? '#5381d3' : color}
               emissive={hovered ? '#1a5b5b' : '#000000'}
             />
           </>
@@ -208,14 +208,14 @@ function ThickWall({
           <>
             <meshPhysicalMaterial
               ref={ref2}
-              color={activeWall === wallId ? '#5381d3' : color}
+              color={activeWall === name ? '#5381d3' : color}
               emissive={hovered ? '#1a5b5b' : '#000000'}
             />
             <boxGeometry args={geometry} ref={refBox} />
           </>
         )}
       </mesh>
-      {activeWall === wallId && (
+      {activeWall === name && (
           <Html center position={[0, (height + 1) /2, 0]}>
             <div
               style={{
@@ -228,10 +228,10 @@ function ThickWall({
               <p style={{margin: '0 0 5px', textAlign: 'center'}}>{name}</p>
               <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
                 {
-                  holedWalls.find(w => w.id === ref?.current?.uuid)
+                  holedWalls.find(w => w.name === name)
                   ? (<button onClick={(e) => {
                       e.preventDefault();
-                      removeHole(ref?.current?.uuid);
+                      removeHole(name);
                     }}>Remove hole</button>)
                   : (<button onClick={(e) => {
                       e.preventDefault();

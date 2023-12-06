@@ -8,7 +8,7 @@ import useStore from '../../store/useStore';
 
 export default function Room({ wallClicker, floorClicker }) {
   const {scale, wallThickness} = useStore();
-  const textureUrl = 'assets/wood.jpg?url';
+  const textureUrl = '/assets/wood.jpg?url';
   const roomSize = useStore((state) => state.roomSize());
 
   const wallHeight = roomSize.height;

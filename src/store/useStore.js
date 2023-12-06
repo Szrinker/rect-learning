@@ -69,6 +69,20 @@ const useStore = create(
         furnitureResizer: false,
         activeWall: null,
         holedWalls: [],
+        projectId: null,
+        setProjectId: (value) => set((state) => ({projectId: value})),
+        setProject: (value) => set((state) => {
+          if (value) {
+            const {scale, objects, holedWalls, wallThickness} = value;
+
+            state.scale.x = scale.x;
+            state.scale.y = scale.y;
+            state.scale.z = scale.z;
+            state.wallThickness = wallThickness;
+            state.objects = objects;
+            state.holedWalls = holedWalls;
+          }
+        }),
         setFactory: (value) => set((state) => ({factory: value})),
         setFurnitureResizer: (value) => set((state) => ({furnitureResizer: value})),
         setScale: (value) => set((state) => ({ scale: value })),
