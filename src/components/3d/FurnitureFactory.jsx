@@ -24,7 +24,7 @@ export default function FurnitureFactory({ furnitureObj }) {
   const removeObject = useStore((state) => state.removeObject);
 
   const beginingMatrix = useMemo(() => {
-    const clampPosition = furnitureObj.position.clone().clamp(bbox.min, bbox.max);
+    const clampPosition = new Vector3().fromArray(furnitureObj.position).clamp(bbox.min, bbox.max);
     return new Matrix4().setPosition(
       clampPosition.x,
       clampPosition.y,

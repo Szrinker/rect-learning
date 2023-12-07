@@ -67,7 +67,7 @@ function ThickWall({
   const invalidateRenderLoop = useThree(state => state.invalidate);
 
   const wallId = ref?.current?.uuid;
-  const holedWall = holedWalls.find(w => w.id === wallId);
+  const holedWall = holedWalls.find(w => w.name === name);
 
   const holeDoorPos = [holedWall?.position, -height/2 + 1, 0];
   const holeDoorScale = [holedWall?.width, 2, thickness + 1];

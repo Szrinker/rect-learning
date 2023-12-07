@@ -49,7 +49,7 @@ export default function Scene() {
       addObject({
         id: id,
         model: `/assets/${model}.glb`,
-        position: point,
+        position: point.toArray(),
         name: id.split("-").pop().slice(-5),
         width: 1,
         height: 1,
