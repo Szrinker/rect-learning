@@ -102,7 +102,7 @@ const useStore = create(
         setActiveWall: (value) => set((state) => ({ activeWall: value })),
         addHoledWalls: (value) => set((state) => ({ holedWalls: [...state.holedWalls, value] })),
         removeHole: (value) => set((state) => ({
-          holedWalls: state.holedWalls.filter(w => w.id !== value)
+          holedWalls: state.holedWalls.filter(w => w.name !== value)
         })),
         updateHole: (value) => set((state) => {
           let currentHoles = state.holedWalls.map((hd) =>
