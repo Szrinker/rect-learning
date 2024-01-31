@@ -26,8 +26,8 @@ export default function SaveBtn() {
       }
     );
 
-    setProjectId(data[0].id);
-    navigate(`project/${data[0].id}`);
+    setProjectId(data.id);
+    navigate(`project/${data.id}`);
 
     setLoader(false);
   }, [projectId, objects, scale, holedWalls, wallThickness,]);

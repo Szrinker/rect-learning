@@ -1,12 +1,14 @@
 import { Canvas } from "@react-three/fiber";
+import {XRButton, XR} from '@react-three/xr';
 import {Environment} from '@react-three/drei';
 import CustomCameraControls from "./components/3d/CustomCameraControls";
 import Panel from "./components/Panel";
 import Scene from "./components/3d/Scene";
-import Postprocessing from './components/3d/Postprocessing.jsx';
-import { Selection } from '@react-three/postprocessing';
+// import Postprocessing from './components/3d/Postprocessing.jsx';
+// import { Selection } from '@react-three/postprocessing';
 import useStore from './store/useStore.js';
-import { useEffect } from 'react';
+import useThreeState from './store/useThreeState.js';
+import {useEffect} from 'react';
 import { getProject } from './api/api.js';
 import { useParams } from 'react-router-dom';
 
@@ -16,23 +18,17 @@ function App() {
   const setProjectId = useStore((state) => state.setProjectId);
   const setProject = useStore((state) => state.setProject);
   const { pid } = useParams();
+  // const sceneRef = useRef();
+  const { setState } = useThreeState;
 
   useEffect(() => {
     async function loadProject() {
-      // if (pid) {
-      //   const project = await getProject(pid);
-      //   if (project[0]?.id) {
-      //     setProjectId(project[0]?.id);
-      //     setProject(project[0].data);
-      //   }
-      // }
       if (pid) {
         try {
           const project = await getProject(pid);
 
           // if project is not defined, don't update the state
           if (project.id) {
-            console.log(project.data)
             setProjectId(project.id);
             setProject(project.data);
           } else {
@@ -70,21 +66,44 @@ function App() {
         shadows
         flat
         onPointerMissed={e => handleMissClick(e)}
+        onCreated={(state) => {
+          setState(() => ({ three: state }));
+        }}
       >
-        <Environment preset={'night'} />
-        <CustomCameraControls
-          options={{
-            minPolarAngle: 0,
-            maxPolarAngle: Math.PI / 2,
-            smoothTime: 0.15,
-          }}
-        />
-        <ambientLight intensity={0.25} />
-        <Selection>
-          <Postprocessing />
-          <Scene />
-        </Selection>
+        <XR
+          referenceSpace={'unbounded'}
+        >
+          <Environment preset={'night'} />
+          <CustomCameraControls
+            options={{
+              minPolarAngle: 0,
+              maxPolarAngle: Math.PI / 2,
+              smoothTime: 0.15,
+            }}
+          />
+          <ambientLight intensity={0.25} />
+          {/*<Selection>*/}
+            {/*<Postprocessing />*/}
+            {/*<RayGrab>*/}
+            <Scene />{/*sceneRef={sceneRef}*/}
+            {/*</RayGrab>*/}
+          {/*</Selection>*/}
+        </XR>
       </Canvas>
+      { !navigator?.xr && (
+        <XRButton
+          className={'webxr-button'}
+          mode={'AR'}
+          // sessionInit={{
+          //   requiredFeatures: ["hit-test"]
+          // }}
+          // sessionInit={{
+          //   requiredFeatures: ['hit-test'],
+          //   // optionalFeatures: ['dom-overlay', 'dom-overlay-for-handheld-ar'],
+          //   domOverlay: { root: document.body }
+          // }}
+        />
+      )}
     </>
   );
 }

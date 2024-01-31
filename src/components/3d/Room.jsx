@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, {Fragment, useRef} from 'react';
 // import Wall from './Wall.jsx';
 import ThickWall from './ThickWall.jsx';
 import Floor from './Floor.jsx';
@@ -33,7 +33,7 @@ export default function Room({ wallClicker, floorClicker }) {
   // });
 
   return (
-    <>
+    <group name={'room'}>
       <Light />
 
       <ThickWall
@@ -114,6 +114,6 @@ export default function Room({ wallClicker, floorClicker }) {
         textureRepeatY={texRepeatY}
         onClick={floorClicker}
       />
-    </>
+    </group>
   );
 }
