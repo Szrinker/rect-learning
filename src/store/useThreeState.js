@@ -7,7 +7,7 @@ const useThreeState = create(
     (set, get) => ({
       three: null,
       screenShoot: () => {
-        const three = useThreeState.getState().three;
+        const three = get().three;
         const canvas = three.gl.domElement;
 
         return canvas.toDataURL();

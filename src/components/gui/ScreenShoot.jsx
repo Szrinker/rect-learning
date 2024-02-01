@@ -3,12 +3,14 @@ import useThreeState from '../../store/useThreeState.js';
 
 export default function ScreenShoot() {
   // const three = useThreeState((state) => state.three);
+  const screenShoot = useThreeState((state) => state.screenShoot);
   const [loader, setLoader] = useState(false);
 
-  const handler = useCallback(async () => {
+  const handler = useCallback(() => {
     setLoader(true);
 
-    const ss = await useThreeState.getState().screenShoot();
+    const ss = screenShoot();
+    // const ss = await useThreeState.getState().screenShoot();
     const url = document.createElement('a');
     url.download = 'FurnitureFactory.png';
     url.href = ss;
