@@ -1,16 +1,19 @@
 import { useCallback, useState } from 'react';
-import useThreeState from '../../store/useThreeState.js';
+// import useThreeState from '../../store/useThreeState.js';
+import {useThreeStateContext} from '../../utils/threeStateContext.js';
 
 export default function ScreenShoot() {
   // const three = useThreeState((state) => state.three);
-  const screenShoot = useThreeState((state) => state.screenShoot);
+  // const screenShoot = useThreeState((state) => state.screenShoot);
   const [loader, setLoader] = useState(false);
+  const gl = useThreeStateContext(state => state.gl);
 
   const handler = useCallback(() => {
     setLoader(true);
 
-    const ss = screenShoot();
-    // const ss = await useThreeState.getState().screenShoot();
+    // const ss = screenShoot();
+    const ss = gl.domElement.toDataURL();
+
     const url = document.createElement('a');
     url.download = 'FurnitureFactory.png';
     url.href = ss;

@@ -112,7 +112,7 @@ export default function Room({ wallClicker, floorClicker }) {
         textureUrl={textureUrl}
         textureRepeatX={texRepeatX}
         textureRepeatY={texRepeatY}
-        onClick={floorClicker}
+        onClick={(e) => {floorClicker(e)}}
       />
     </group>
   );

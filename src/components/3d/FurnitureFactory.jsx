@@ -62,7 +62,7 @@ export default function FurnitureFactory({ furnitureObj }) {
     m4.setPosition(newPosition);
   }, [bbox]);
 
-  // useHelper(furnitureRef, BoxHelper, "magenta");
+  useHelper(furnitureRef, BoxHelper, "magenta");
 
   return (
     <PivotControls
@@ -74,7 +74,7 @@ export default function FurnitureFactory({ furnitureObj }) {
       autoTransform={false}
       matrix={matrix.current}
       visible={furnitureObj.id === activeId}
-      anchor={[0, -1, 0]}
+      anchor={[0, -0.9, 0]}
       onDrag={(m, md, mW, mWd) => {
         if (!matrix.current) return;
 
@@ -98,7 +98,7 @@ export default function FurnitureFactory({ furnitureObj }) {
     >
       <group ref={furnitureRef} key={`${furnitureObj.id}-gr`}>
         <Suspense>
-          {/*<Center>*/}
+          {/*<Center disableY>*/}
             {furnitureObj.id === activeId && (
               <Html position={[0, 2, 0]} center>
                 <div
@@ -158,26 +158,26 @@ export default function FurnitureFactory({ furnitureObj }) {
                 </div>
               </Html>
             )}
-          <Select enabled={furnitureObj.id === activeId}>
-            <Model
-              id={furnitureObj.id}
-              model={furnitureObj.model}
-              onClick={(e) => {
-                e.stopPropagation();
-                setActiveId(e.eventObject.userData.id);
-                setActiveWall(null);
-              }}
-              onPointerOver={() => hover(true)}
-              onPointerOut={() => hover(false)}
-              dimensions={{
-                width: furnitureObj.width,
-                height: furnitureObj.height,
-                depth: furnitureObj.depth,
-              }}
-              receiveShadow={true}
-              castShadow={true}
-            />
-          </Select>
+            <Select enabled={furnitureObj.id === activeId}>
+              <Model
+                id={furnitureObj.id}
+                model={furnitureObj.model}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveId(e.eventObject.userData.id);
+                  setActiveWall(null);
+                }}
+                onPointerOver={() => hover(true)}
+                onPointerOut={() => hover(false)}
+                dimensions={{
+                  width: furnitureObj.width,
+                  height: furnitureObj.height,
+                  depth: furnitureObj.depth,
+                }}
+                receiveShadow={true}
+                castShadow={true}
+              />
+            </Select>
           {/*</Center>*/}
         </Suspense>
       </group>

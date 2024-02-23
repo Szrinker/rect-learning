@@ -1,4 +1,3 @@
-// import { createStore } from 'zustand/vanilla';
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
@@ -14,7 +13,10 @@ const useThreeState = create(
       },
     }),
     {
-      name: "ThreeState"
+      name: "ThreeState",
+      serialize: {
+        options: false,
+      },
     }
   ),
 );

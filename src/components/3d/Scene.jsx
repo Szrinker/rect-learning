@@ -4,8 +4,8 @@ import Room from "./Room.jsx";
 import FurnitureFactory from "./FurnitureFactory.jsx";
 import Lines from './Lines.jsx';
 // import { useHitTest, useXREvent, Interactive, useInteraction, useXR } from '@react-three/xr';
-import {useFrame, useThree} from '@react-three/fiber';
-import {PivotControls} from '@react-three/drei';
+// import {useFrame, useThree} from '@react-three/fiber';
+// import {PivotControls} from '@react-three/drei';
 
 export default function Scene() {
   const factory = useStore((state) => state.factory);
@@ -54,17 +54,15 @@ export default function Scene() {
     const { point, normal, object } = e.intersections[0];
     const id = crypto.randomUUID();
 
-    if (object.parent.type === "Scene") {
-      addObject({
-        id: id,
-        model: `/assets/${model}.glb`,
-        position: point.toArray(),
-        name: id.split("-").pop().slice(-5),
-        width: 1,
-        height: 1,
-        depth: 1,
-      });
-    }
+    addObject({
+      id: id,
+      model: `/assets/${model}.glb`,
+      position: point.toArray(),
+      name: id.split("-").pop().slice(-5),
+      width: 1,
+      height: 1,
+      depth: 1,
+    });
   }, [model, factory, activeId]);
 
   // player.position.z = 3;

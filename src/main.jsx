@@ -4,11 +4,14 @@ import App from './App.jsx';
 import ErrorPage from './error.jsx';
 import './index.css';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {createCanvas} from './MainCanvas.jsx';
+import {threeStateContext} from './utils/threeStateContext.js';
 
+const { injectCanvas, canvasState } = createCanvas();
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <App injectCanvas={injectCanvas} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -17,11 +20,9 @@ const router = createBrowserRouter([
       }
     ]
   }
-])
+]);
 
 // ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <threeStateContext.Provider value={canvasState}><RouterProvider router={router} /></threeStateContext.Provider>
 );
