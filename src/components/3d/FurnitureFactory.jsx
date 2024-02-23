@@ -62,7 +62,7 @@ export default function FurnitureFactory({ furnitureObj }) {
     m4.setPosition(newPosition);
   }, [bbox]);
 
-  useHelper(furnitureRef, BoxHelper, "magenta");
+  // useHelper(furnitureRef, BoxHelper, "magenta");
 
   return (
     <PivotControls

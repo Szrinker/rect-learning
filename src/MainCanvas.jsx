@@ -25,7 +25,7 @@ export function createCanvas() {
       size: { width: size.width, height: size.height },
       dpr,
       frameloop: 'demand',
-      // events,
+      events,
       gl: {
         localClippingEnabled: true,
         preserveDrawingBuffer: true,
@@ -52,7 +52,10 @@ export function createCanvas() {
           useStore.setState({ activeWall: null });
         }
       },
-      // onCreated: () => {},
+      // onCreated: (rs) => {
+      //   rs.events.connect(document.querySelector('#root'));
+      //   // console.log(document.querySelector('#root'));
+      // },
       // TODO: add eventSource https://github.com/pmndrs/react-three-fiber/blob/master/packages/fiber/src/web/Canvas.tsx#L101-L119
     });
 
@@ -61,7 +64,7 @@ export function createCanvas() {
       {/*<XR*/}
       {/*  referenceSpace={'unbounded'}*/}
       {/*>*/}
-        <React.Suspense>
+      {/*  <React.Suspense>*/}
         <Environment preset={'night'} />
         <CustomCameraControls
           options={{
@@ -78,7 +81,7 @@ export function createCanvas() {
           {/*</RayGrab>*/}
         </Selection>
         {/*</XR>*/}
-        </React.Suspense>
+        {/*</React.Suspense>*/}
       </>
     );
   };
