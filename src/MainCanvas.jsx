@@ -4,10 +4,10 @@ import { extend, createRoot, events } from '@react-three/fiber'
 import useStore from './store/useStore.js';
 // import useThreeState from './store/useThreeState.js';
 // import {XR} from '@react-three/xr';
-import {Environment} from '@react-three/drei';
+import {Environment, Html} from '@react-three/drei';
 import CustomCameraControls from './components/3d/CustomCameraControls.jsx';
 import Scene from './components/3d/Scene.jsx';
-import {debounce} from 'throttle-debounce';
+import {debounce, throttle} from 'throttle-debounce';
 import {observeElementResize} from './utils/observeElementResize.js';
 import { Selection } from '@react-three/postprocessing';
 import Postprocessing from './components/3d/Postprocessing.jsx';
@@ -19,11 +19,13 @@ export function createCanvas() {
   const root = createRoot(canvas);
 
   const configureAndRender = (size, dpr) => {
+    if (size.width < 1 || size.height < 1) return null;
+
     root.configure({
       size: { width: size.width, height: size.height },
       dpr,
       frameloop: 'demand',
-      events,
+      // events,
       gl: {
         localClippingEnabled: true,
         preserveDrawingBuffer: true,
@@ -50,9 +52,8 @@ export function createCanvas() {
           useStore.setState({ activeWall: null });
         }
       },
-      // onCreated: (rs) => {
-      //   useThreeState.setState({ three: rs })
-      // }
+      // onCreated: () => {},
+      // TODO: add eventSource https://github.com/pmndrs/react-three-fiber/blob/master/packages/fiber/src/web/Canvas.tsx#L101-L119
     });
 
     return root.render(
@@ -60,6 +61,7 @@ export function createCanvas() {
       {/*<XR*/}
       {/*  referenceSpace={'unbounded'}*/}
       {/*>*/}
+        <React.Suspense>
         <Environment preset={'night'} />
         <CustomCameraControls
           options={{
@@ -70,13 +72,14 @@ export function createCanvas() {
         />
         <ambientLight intensity={0.25} />
         <Selection>
-        <Postprocessing />
-        {/*<RayGrab>*/}
-        <Scene />
-        {/*</RayGrab>*/}
+          <Postprocessing />
+          {/*<RayGrab>*/}
+          <Scene />
+          {/*</RayGrab>*/}
         </Selection>
-      {/*</XR>*/}
-  </>
+        {/*</XR>*/}
+        </React.Suspense>
+      </>
     );
   };
 
@@ -98,6 +101,7 @@ export function createCanvas() {
     if (wrapper) {
       wrapper.appendChild(canvas);
       debounceCanvas({ width: wrapper.clientWidth, height: wrapper.clientHeight });
+      // configureAndRender({ width: wrapper.clientWidth, height: wrapper.clientHeight });
       observeElementResize(wrapper, configureAndRender);
     }
   };

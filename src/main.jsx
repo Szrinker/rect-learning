@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'project/:pid',
-        element: <App />,
+        element: <App injectCanvas={injectCanvas} />,
       }
     ]
   }

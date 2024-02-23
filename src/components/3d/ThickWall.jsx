@@ -216,7 +216,7 @@ function ThickWall({
         )}
       </mesh>
       {activeWall === name && (
-          <Html center position={[0, (height + 1) /2, 0]}>
+          <Html center position={[0, (height + 1) /2, 0]} >
             <div
               style={{
                 background: 'rgba(0,0,0,0.7)',

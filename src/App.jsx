@@ -11,6 +11,8 @@ import useStore from './store/useStore.js';
 import { useEffect } from 'react';
 import { getProject } from './api/api.js';
 import { useParams } from 'react-router-dom';
+import {Html} from '@react-three/drei';
+import {Canvas} from '@react-three/fiber';
 
 function App({
   injectCanvas,
@@ -46,12 +48,12 @@ function App({
     loadProject();
   }, [pid]);
 
-  // const handleMissClick = (e) => {
-  //   if (e.target.localName === 'canvas') {
-  //     setActiveId(null);
-  //     setActiveWall(null);
-  //   }
-  // }
+  const handleMissClick = (e) => {
+    if (e.target.localName === 'canvas') {
+      setActiveId(null);
+      setActiveWall(null);
+    }
+  }
 
   return (
     <>
@@ -69,44 +71,13 @@ function App({
       {/*  shadows*/}
       {/*  flat*/}
       {/*  onPointerMissed={e => handleMissClick(e)}*/}
-      {/*  onCreated={(state) => {*/}
-      {/*    setState(() => ({ three: state }));*/}
-      {/*  }}*/}
+      {/*  // onCreated={(state) => {*/}
+      {/*  //   setState(() => ({ three: state }));*/}
+      {/*  // }}*/}
       {/*>*/}
-      {/*  <XR*/}
-      {/*    referenceSpace={'unbounded'}*/}
-      {/*  >*/}
-      {/*    <Environment preset={'night'} />*/}
-      {/*    <CustomCameraControls*/}
-      {/*      options={{*/}
-      {/*        minPolarAngle: 0,*/}
-      {/*        maxPolarAngle: Math.PI / 2,*/}
-      {/*        smoothTime: 0.15,*/}
-      {/*      }}*/}
-      {/*    />*/}
-      {/*    <ambientLight intensity={0.25} />*/}
-      {/*    /!*<Selection>*!/*/}
-      {/*      /!*<Postprocessing />*!/*/}
-      {/*      /!*<RayGrab>*!/*/}
-      {/*      <Scene />/!*sceneRef={sceneRef}*!/*/}
-      {/*      /!*</RayGrab>*!/*/}
-      {/*    /!*</Selection>*!/*/}
-      {/*  </XR>*/}
+      {/*  <Html>EEEEEEEEEEEEEEEEEEEEEEEEEEEEE</Html>*/}
       {/*</Canvas>*/}
-      {/*{ !navigator?.xr && (*/}
-      {/*  <XRButton*/}
-      {/*    className={'webxr-button'}*/}
-      {/*    mode={'AR'}*/}
-      {/*    // sessionInit={{*/}
-      {/*    //   requiredFeatures: ["hit-test"]*/}
-      {/*    // }}*/}
-      {/*    // sessionInit={{*/}
-      {/*    //   requiredFeatures: ['hit-test'],*/}
-      {/*    //   // optionalFeatures: ['dom-overlay', 'dom-overlay-for-handheld-ar'],*/}
-      {/*    //   domOverlay: { root: document.body }*/}
-      {/*    // }}*/}
-      {/*  />*/}
-      {/*)}*/}
+
       <div
         className="canvas-container"
         style={{
