@@ -11,11 +11,6 @@ function App({
   const setProjectId = useStore((state) => state.setProjectId);
   const setProject = useStore((state) => state.setProject);
   const { pid } = useParams();
-  const {gl, events} = useThreeStateContext(state => state);
-
-  useEffect(() => {
-    events.connect(gl.domElement.parentElement);
-  }, []);
 
   useEffect(() => {
     async function loadProject() {

@@ -104,6 +104,7 @@ export function createCanvas() {
     if (wrapper) {
       wrapper.appendChild(canvas);
       debounceCanvas({ width: wrapper.clientWidth, height: wrapper.clientHeight });
+      canvasState.getState().events.connect(wrapper);
       // configureAndRender({ width: wrapper.clientWidth, height: wrapper.clientHeight });
       observeElementResize(wrapper, configureAndRender);
     }
