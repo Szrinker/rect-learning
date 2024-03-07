@@ -1,20 +1,8 @@
 import { Vector3, Box3, Sphere } from "three";
-import React, { useRef, useMemo, useEffect } from "react";
+import React, {useRef, useMemo, useEffect, useCallback} from 'react';
 import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import useStore from "../../store/useStore";
-
-const useDidMountEffect = (func, deps) => {
-  const didMount = useRef(false);
-
-  useEffect(() => {
-    if (didMount.current) {
-      func();
-    } else {
-      didMount.current = true;
-    }
-  }, deps);
-};
 
 function setBBoxDimensions(width, height, depth, target = new Box3()) {
   target.min.x = -(width / 2);
@@ -33,8 +21,10 @@ const bsphere = new Sphere();
 
 function CustomCameraControls({ options, fitOnResize = true }) {
   const roomSize = useStore((state) => state.roomSize());
+  const wallThickness = useStore((state) => state.wallThickness);
   const size = useThree((state) => state.size);
   const controls = useRef();
+  const prevControls = useRef();
   const fitToSphere = useMemo(
     () =>
       controls.current
@@ -42,23 +32,41 @@ function CustomCameraControls({ options, fitOnResize = true }) {
         : () => {},
     [controls.current]
   );
+  const setThree = useThree(state => state.set);
+  const gl = useThree(state => state.gl);
+  const scene = useThree(state => state.scene);
+  const camera = useThree(state => state.camera);
+  const invalidate = useThree(state => state.invalidate);
 
-  useDidMountEffect(() => {
-    setBBoxDimensions(roomSize.width, roomSize.height, roomSize.depth, bbox);
+  const onUpdate = useCallback(() => {
+    invalidate();
+  }, [invalidate]);
+
+  useEffect(() => {
+    setBBoxDimensions(roomSize.width + wallThickness, roomSize.height + wallThickness, roomSize.depth + wallThickness, bbox);
     if (bbox.isEmpty()) return;
 
     bbox.getBoundingSphere(bsphere);
-
     fitToSphere(bsphere, true);
+
   }, [
-    fitOnResize,
-    size.width,
-    roomSize.width,
-    roomSize.depth,
-    roomSize.height,
+    fitToSphere,
+    size,
+    roomSize,
+    wallThickness,
   ]);
 
-  return <CameraControls makeDefault ref={controls} {...options} />;
+  useEffect(() => {
+    if (prevControls.current === controls.current) invalidate();
+
+    prevControls.current = controls.current;
+    setThree({ cameraControls: controls.current });
+
+
+    invalidate();
+  }, []);
+
+  return <CameraControls makeDefault ref={controls} camera={camera} {...options} />;
 }
 
 export default CustomCameraControls;

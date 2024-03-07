@@ -4,15 +4,20 @@ import { extend, createRoot, events } from '@react-three/fiber'
 import useStore from './store/useStore.js';
 // import useThreeState from './store/useThreeState.js';
 // import {XR} from '@react-three/xr';
-import {Environment, Html} from '@react-three/drei';
+import {Environment} from '@react-three/drei';
 import CustomCameraControls from './components/3d/CustomCameraControls.jsx';
 import Scene from './components/3d/Scene.jsx';
-import {debounce, throttle} from 'throttle-debounce';
+import {debounce} from 'throttle-debounce';
 import {observeElementResize} from './utils/observeElementResize.js';
 import { Selection } from '@react-three/postprocessing';
 import Postprocessing from './components/3d/Postprocessing.jsx';
 
 extend(THREE);
+
+const so = {
+  width: null,
+  height: null,
+};
 
 export function createCanvas() {
   const canvas = document.createElement('canvas');
@@ -92,9 +97,22 @@ export function createCanvas() {
   // const debounceThreeStateUpdate = debounce(300, (st) => {
   //   useThreeState.setState({ three: st });
   // });
-  // canvasState.setState({
+  canvasState.setState({
+    setSizeOverride(width, height, dpr) {
+      so.width = width;
+      so.height = height;
+      configureAndRender({ width, height, dpr });
+    },
+    resetSizeOverride() {
+      so.width = null;
+      so.height = null;
+      const wrapper = canvasState.getState().gl.domElement?.parentNode;
+      if (wrapper) {
+        configureAndRender({ width: wrapper.clientWidth, height: wrapper.clientHeight });
+      }
+    },
   //   customPropertyTest: true,
-  // });
+  });
   // canvasState.subscribe((newState) => {
   //   debounceThreeStateUpdate(newState);
   // });
