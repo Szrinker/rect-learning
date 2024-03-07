@@ -10,6 +10,7 @@ export default function Postprocessing() {
         multisampling={6}
         autoClear={false}
         frameBufferType={HalfFloatType}
+        enableNormalPass
       >
         <Outline blur visibleEdgeColor="white" edgeStrength={100} width={1000} />
         <SSAO
