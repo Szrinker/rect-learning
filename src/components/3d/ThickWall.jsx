@@ -104,7 +104,8 @@ function ThickWall({
   const doorOpen = useSpring({
     rotation: clickedDoor ? calculateRotation(defaultRotation, 'y', 0.75) : defaultRotation,
     config: config.wobbly,
-    onChange: () => invalidateRenderLoop(),
+    onChange: () => invalidateRenderLoop(2),
+    onProps: () => invalidateRenderLoop(2),
   });
 
   return (
