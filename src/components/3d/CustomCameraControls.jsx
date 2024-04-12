@@ -25,13 +25,13 @@ function CustomCameraControls({ options, fitOnResize = true }) {
   const size = useThree((state) => state.size);
   const controls = useRef();
   const prevControls = useRef();
-  const fitToSphere = useMemo(
-    () =>
-      controls.current
-        ? controls.current.fitToSphere.bind(controls.current)
-        : () => {},
-    [controls.current]
-  );
+  // const fitToSphere = useMemo(
+  //   () =>
+  //     controls.current
+  //       ? controls.current.fitToSphere.bind(controls.current)
+  //       : () => {},
+  //   [controls.current]
+  // );
   const setThree = useThree(state => state.set);
   const gl = useThree(state => state.gl);
   const scene = useThree(state => state.scene);
@@ -47,10 +47,9 @@ function CustomCameraControls({ options, fitOnResize = true }) {
     if (bbox.isEmpty()) return;
 
     bbox.getBoundingSphere(bsphere);
-    fitToSphere(bsphere, true);
+    controls.current.fitToSphere(bsphere, true);
 
   }, [
-    fitToSphere,
     size,
     roomSize,
     wallThickness,
