@@ -21,6 +21,8 @@ const so = {
 
 export function createCanvas() {
   const canvas = document.createElement('canvas');
+  canvas.className = 'main-canvas';
+  canvas.style.display = 'block';
   const root = createRoot(canvas);
 
   const configureAndRender = (size, dpr) => {
@@ -91,7 +93,7 @@ export function createCanvas() {
     );
   };
 
-  const debounceCanvas = debounce(100, configureAndRender);
+  const debounceCanvas = debounce(0, configureAndRender);
   const canvasState = configureAndRender({ width: 1, height: 1 });
 
   // const debounceThreeStateUpdate = debounce(300, (st) => {
@@ -121,9 +123,8 @@ export function createCanvas() {
   const injectCanvas = wrapper => {
     if (wrapper) {
       wrapper.appendChild(canvas);
-      debounceCanvas({ width: wrapper.clientWidth, height: wrapper.clientHeight });
       canvasState.getState().events.connect(wrapper);
-      // configureAndRender({ width: wrapper.clientWidth, height: wrapper.clientHeight });
+      debounceCanvas({ width: wrapper.clientWidth, height: wrapper.clientHeight });
       observeElementResize(wrapper, configureAndRender);
     }
   };

@@ -3,6 +3,7 @@ import useStore from '../store/useStore';
 import RangeInput from './gui/RangeInput';
 import SaveBtn from './gui/SaveBtn.jsx';
 import ScreenShoot from './gui/ScreenShoot.jsx';
+import Pdf from './gui/Pdf.jsx';
 
 export default function Panel() {
   const wallThickness = useStore((state) => state.wallThickness);
@@ -218,6 +219,7 @@ export default function Panel() {
       </div>
       <SaveBtn />
       <ScreenShoot />
+      <Pdf />
     </div>
   );
 }
