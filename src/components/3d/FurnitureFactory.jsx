@@ -100,7 +100,15 @@ export default function FurnitureFactory({ furnitureObj }) {
         <Suspense>
           {/*<Center disableY>*/}
             {furnitureObj.id === activeId && (
-              <Html position={[0, 2, 0]} center>
+              <Html
+                position={[0, 2, 0]}
+                center
+                onClick={
+                  (e) => {
+                    e.preventDefault();
+                  }
+                }
+              >
                 <div
                   style={{
                     background: 'rgba(0,0,0,0.7)',

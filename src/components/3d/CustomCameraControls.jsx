@@ -1,5 +1,5 @@
-import { Vector3, Box3, Sphere } from "three";
-import React, {useRef, useMemo, useEffect, useCallback} from 'react';
+import { Box3, Sphere } from "three";
+import { useRef, useEffect, useCallback } from 'react';
 import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import useStore from "../../store/useStore";
@@ -48,7 +48,6 @@ function CustomCameraControls({ options, fitOnResize = true }) {
 
     bbox.getBoundingSphere(bsphere);
     controls.current.fitToSphere(bsphere, true);
-
   }, [
     size,
     roomSize,
@@ -56,13 +55,12 @@ function CustomCameraControls({ options, fitOnResize = true }) {
   ]);
 
   useEffect(() => {
-    if (prevControls.current === controls.current) invalidate();
+    if (prevControls.current === controls.current) onUpdate();
 
     prevControls.current = controls.current;
     setThree({ cameraControls: controls.current });
 
-
-    invalidate();
+    onUpdate();
   }, []);
 
   return <CameraControls makeDefault ref={controls} camera={camera} {...options} />;

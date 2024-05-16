@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import {useThreeStateContext} from '../../utils/threeStateContext.js';
+import { Button } from '@mui/material';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -47,12 +48,12 @@ export default function ScreenShoot() {
   }, []);
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="contained"
       onClick={handler}
       disabled={loader}
     >
       {loader ? '.....' : 'ScreenShoot'}
-    </button>
+    </Button>
   )
 }

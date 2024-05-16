@@ -69,6 +69,7 @@ const useStore = create(
         furnitureResizer: false,
         activeWall: null,
         holedWalls: [],
+        pdfScreens: [],
         projectId: null,
         setProjectId: (value) => set((state) => ({projectId: value})),
         setProject: (value) => set((state) => {
@@ -114,6 +115,12 @@ const useStore = create(
           return {
             holedWalls: currentHoles
           }
+        }),
+        addPdfScreen: (value) => set((state) => {
+          state.pdfScreens.push(value);
+        }),
+        emptyPdfScreen: (value) => set((state) => {
+          state.pdfScreens.splice(value, 1);
         }),
       }),
       computedState,

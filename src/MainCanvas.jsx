@@ -1,9 +1,7 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import * as THREE from 'three'
 import { extend, createRoot, events } from '@react-three/fiber'
 import useStore from './store/useStore.js';
-// import useThreeState from './store/useThreeState.js';
-// import {XR} from '@react-three/xr';
 import {Environment} from '@react-three/drei';
 import CustomCameraControls from './components/3d/CustomCameraControls.jsx';
 import Scene from './components/3d/Scene.jsx';
@@ -68,10 +66,6 @@ export function createCanvas() {
 
     return root.render(
       <>
-      {/*<XR*/}
-      {/*  referenceSpace={'unbounded'}*/}
-      {/*>*/}
-      {/*  <React.Suspense>*/}
         <Environment preset={'night'} />
         <CustomCameraControls
           options={{
@@ -83,12 +77,8 @@ export function createCanvas() {
         <ambientLight intensity={0.25} />
         <Selection>
           <Postprocessing />
-          {/*<RayGrab>*/}
           <Scene />
-          {/*</RayGrab>*/}
         </Selection>
-        {/*</XR>*/}
-        {/*</React.Suspense>*/}
       </>
     );
   };
@@ -113,19 +103,14 @@ export function createCanvas() {
         configureAndRender({ width: wrapper.clientWidth, height: wrapper.clientHeight });
       }
     },
-  //   customPropertyTest: true,
   });
-  // canvasState.subscribe((newState) => {
-  //   debounceThreeStateUpdate(newState);
-  // });
-
 
   const injectCanvas = wrapper => {
     if (wrapper) {
       wrapper.appendChild(canvas);
       canvasState.getState().events.connect(wrapper);
       debounceCanvas({ width: wrapper.clientWidth, height: wrapper.clientHeight });
-      observeElementResize(wrapper, configureAndRender);
+      observeElementResize(wrapper, debounceCanvas);
     }
   };
 

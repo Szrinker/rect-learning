@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import useStore from '../../store/useStore.js';
 import { saveProject } from '../../api/api.js';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 export default function SaveBtn() {
   const navigate = useNavigate();
@@ -33,12 +34,13 @@ export default function SaveBtn() {
   }, [projectId, objects, scale, holedWalls, wallThickness,]);
 
   return (
-    <button
+    <Button
+      variant="contained"
       type="button"
       onClick={handler}
       disabled={loader}
     >
       {loader ? '.....' : 'Save'}
-    </button>
+    </Button>
   )
 }

@@ -3,7 +3,17 @@ import useStore from './store/useStore.js';
 import { useEffect } from 'react';
 import { getProject } from './api/api.js';
 import { useParams } from 'react-router-dom';
+import { CssBaseline, Container, Box } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { indigo, teal } from '@mui/material/colors';
 import {useThreeStateContext} from './utils/threeStateContext.js';
+
+const theme = createTheme({
+  palette: {
+    primary: indigo,
+    secondary: teal,
+  },
+});
 
 function App({
   injectCanvas,
@@ -43,19 +53,35 @@ function App({
   }
 
   return (
-    <>
-      <Panel />
-      <div
-        className="canvas-container"
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container
+        maxWidth={false}
+        disableGutters
+        id="container"
         style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
+          display: 'flex',
           overflow: 'hidden',
         }}
-        ref={injectCanvas}
-      />
-    </>
+      >
+        {/*<Box*/}
+        {/*  display="flex"*/}
+        {/*  alignItems="center"*/}
+        {/*>*/}
+          <Panel />
+          <div
+            className="canvas-container"
+            style={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden',
+            }}
+            ref={injectCanvas}
+          />
+        {/*</Box>*/}
+      </Container>
+    </ThemeProvider>
   );
 }
 

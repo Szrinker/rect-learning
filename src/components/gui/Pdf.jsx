@@ -1,17 +1,36 @@
-import { useCallback, useState, lazy } from 'react';
-import {useThreeStateContext} from '../../utils/threeStateContext.js';
-import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+import { useCallback, useState } from 'react';
+import { useThreeStateContext } from '../../utils/threeStateContext.js';
+import {
+  Button,
+  ButtonGroup,
+  Modal,
+  Box,
+  Typography,
+  ImageList,
+  ImageListItem,
+} from '@mui/material';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: '80%',
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 2,
+};
 
 const screens = [];
 
 export default function ScreenShoot() {
   const [loader, setLoader] = useState(false);
   const [loaderPdf, setLoaderPdf] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const threeState = useThreeStateContext(state => state.get);
 
   const screenShotHandler = useCallback( async () => {
@@ -51,15 +70,10 @@ export default function ScreenShoot() {
   const pdfCreateHandle = useCallback(async () => {
     setLoaderPdf(true);
     try {
+      const pdfMake = await import("pdfmake/build/pdfmake.min.js").then(r => r.default);
+      const pdfFonts = await import("pdfmake/build/vfs_fonts.js").then(r => r.default);
+
       pdfMake.vfs = pdfFonts.pdfMake.vfs;
-      // pdfMake.fonts = {
-      //   Roboto: {
-      //     normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
-      //     bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
-      //     italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
-      //     bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
-      //   }
-      // };
 
       const ssArr = [];
       screens.forEach(ss => {
@@ -82,39 +96,79 @@ export default function ScreenShoot() {
       }
 
       pdfMake.createPdf(dd).download(`ProjektUbogiejCeli-10_${Date.now()}`);
-      screens.length = 0;
-
+      screens.splice(1);
     } catch (err) {
       console.error(err);
+      setLoaderPdf(false);
     } finally {
-      setLoader(false);
+      setLoaderPdf(false);
     }
   }, []);
 
-  console.log(screens)
-
   return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        margin: '10px auto auto auto'
-      }}
-    >
-      <button
-        type="button"
-        onClick={screenShotHandler}
-        disabled={loader}
+    <>
+      <ButtonGroup
+        variant="contained"
+        color="secondary"
+        orientation="vertical"
       >
-        {loader ? '.....' : 'PDF ScreenShoot'}
-      </button>
-      <button
-        type="button"
-        onClick={pdfCreateHandle}
-        disabled={loaderPdf}
+        <Button
+          onClick={screenShotHandler}
+          disabled={loader}
+        >
+          {loader ? '.....' : 'PDF ScreenShoot'}
+        </Button>
+        <Button
+          onClick={() => setOpenModal(true)}
+          disabled={screens.length === 0}
+        >
+          Show images
+        </Button>
+        <Button
+          onClick={pdfCreateHandle}
+          disabled={loaderPdf}
+        >
+          {loaderPdf ? '.....' : 'PDF Create'}
+        </Button>
+      </ButtonGroup>
+      <Modal
+        open={openModal}
+        onClose={()=> setOpenModal(false)}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
       >
-        {loaderPdf ? '.....' : 'PDF Create'}
-      </button>
-    </div>
+        <Box
+          sx={style}
+        >
+          <Typography id="modal-title" variant="h5" component="h2">
+            Images for PDF.
+          </Typography>
+          <Typography id="modal-description">
+            List of images inserted into PDF.
+          </Typography>
+          <ImageList
+            cols={4}
+            rowHeight={250}
+            sx={{ minWidth: 400, maxHeight: '50vh' }}
+          >
+            {screens.length > 0 && screens.map((sc, indx) => (
+              <ImageListItem key={`imageNo_${indx}`}>
+                <img
+                  src={`${sc}`}
+                  srcSet={`${sc}`}
+                  alt={`Image No. ${indx}`}
+                  loading={'lazy'}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </Box>
+      </Modal>
+    </>
   )
 }

@@ -1,17 +1,17 @@
-import React, {Fragment, useRef} from 'react';
+import { useRef } from 'react';
 // import Wall from './Wall.jsx';
 import ThickWall from './ThickWall.jsx';
 import Floor from './Floor.jsx';
 import Light from './Light.jsx';
 import useStore from '../../store/useStore';
-import {useFrame, useThree} from "@react-three/fiber";
-import {useThreeStateContext} from '../../utils/threeStateContext.js';
+// import {useFrame, useThree} from "@react-three/fiber";
+// import {useThreeStateContext} from '../../utils/threeStateContext.js';
 
 export default function Room({ wallClicker, floorClicker }) {
   const {scale, wallThickness} = useStore();
   const textureUrl = '/assets/wood.jpg?url';
   const roomSize = useStore((state) => state.roomSize());
-  const camera = useThree(state => state.camera);
+  // const camera = useThree(state => state.camera);
 
   const wallHeight = roomSize.height;
   const halfX = roomSize.width / 2;
@@ -27,12 +27,12 @@ export default function Room({ wallClicker, floorClicker }) {
   const wallBlue = useRef();
   const wallYellow = useRef();
 
-  useFrame(() => {
-    wallRed.current.visible = camera.position.z > -(roomSize.depth / 2 + wallThickness/2);
-    wallGreen.current.visible = camera.position.x > -(roomSize.width / 2 + wallThickness/2);
-    wallBlue.current.visible = camera.position.z < (roomSize.depth / 2 + wallThickness/2);
-    wallYellow.current.visible = camera.position.x < (roomSize.width / 2 + wallThickness/2);
-  });
+  // useFrame(() => {
+  //   wallRed.current.visible = camera.position.z > -(roomSize.depth / 2 + wallThickness/2);
+  //   wallGreen.current.visible = camera.position.x > -(roomSize.width / 2 + wallThickness/2);
+  //   wallBlue.current.visible = camera.position.z < (roomSize.depth / 2 + wallThickness/2);
+  //   wallYellow.current.visible = camera.position.x < (roomSize.width / 2 + wallThickness/2);
+  // });
 
   return (
     <group name={'room'}>
