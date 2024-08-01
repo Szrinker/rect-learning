@@ -1,9 +1,9 @@
-import { useLayoutEffect } from "react";
+import React, { useLayoutEffect, forwardRef } from "react";
 import * as THREE from "three";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import { useThree, useLoader } from "@react-three/fiber";
 
-export default function Floor({
+function Floor({
   rotation = [0, 0, 0],
   position = [0, 0, 0],
   width = 1,
@@ -15,7 +15,7 @@ export default function Floor({
   textureRepeatX,
   textureRepeatY,
   onClick,
-}) {
+}, ref) {
   const gl = useThree((state) => state.gl);
   const texture = useLoader(TextureLoader, textureUrl);
 
@@ -35,6 +35,7 @@ export default function Floor({
         castShadow={castShadow}
         receiveShadow={receiveShadow}
         onClick={onClick}
+        ref={ref}
       >
         <planeGeometry args={[1, 1]} />
         <meshPhysicalMaterial map={texture} />
@@ -42,3 +43,5 @@ export default function Floor({
     </>
   );
 }
+
+export default React.forwardRef(Floor);

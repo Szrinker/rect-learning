@@ -58,7 +58,7 @@ const useStore = create(
   devtools(
     computed(
       (set, get) => ({
-        scale: { x: 1, y: 1, z: 1 },
+        scale: { x: 2.5, y: 1.4, z: 2.8 },
         defaultSize: 5,
         model: 'chair',
         wallThickness: 0.1,

@@ -1,6 +1,6 @@
-import * as THREE from 'three';
-import React, { useRef } from 'react';
-import {Sphere, useHelper} from '@react-three/drei';
+import {PointLightHelper, CameraHelper} from 'three';
+import React, {useRef} from 'react';
+import {OrthographicCamera, Sphere, useHelper} from '@react-three/drei';
 import useStore from '../../store/useStore.js';
 
 export default function Light() {
@@ -11,10 +11,10 @@ export default function Light() {
   const directionalLightRef = useRef();
   const directionalLightShadowCameraRef = useRef();
 
-  // useHelper(pointLightRef, THREE.PointLightHelper, 0.2, 0x000000);
-  // useHelper(directionalLightRef, THREE.DirectionalLightHelper, 3, 'magenta');
-  // useHelper(pointLightShadowCameraRef, THREE.CameraHelper);
-  // useHelper(directionalLightShadowCameraRef, THREE.CameraHelper);
+  // useHelper(pointLightRef, PointLightHelper, 0.2, 0x000000);
+  // useHelper(directionalLightRef, DirectionalLightHelper, 3, 'magenta');
+  // useHelper(pointLightShadowCameraRef, CameraHelper);
+  // useHelper(directionalLightShadowCameraRef, CameraHelper);
 
   return (
     <>
@@ -49,16 +49,25 @@ export default function Light() {
 
       <directionalLight
         castShadow
-        position={[10, 10, 5]}
+        position={[20, 20, 5]}
         ref={directionalLightRef}
         args={[0xffffff, 1]}
         shadow-mapSize={[1024, 1024]}
         shadow-bias={-0.002}
         shadow-normlaBias={0.0003}
       >
-        <orthographicCamera ref={directionalLightShadowCameraRef} attach="shadow-camera" args={[-5, 5, 5, -5, 0.0001, 25]} />
+        <OrthographicCamera
+          ref={directionalLightShadowCameraRef}
+          attach="shadow-camera"
+          left={-((roomSize.depth/2) + 6)}
+          right={((roomSize.depth/2) + 6)}
+          top={((roomSize.width/2) + 6)}
+          bottom={-((roomSize.width/2) + 6)}
+          near={0}
+          far={55}
+        />
+        {/*<orthographicCamera ref={directionalLightShadowCameraRef} attach="shadow-camera" args={[-5, 5, 5, -5, 0.0001, 25]} />*/}
       </directionalLight>
     </>
-
   );
 }

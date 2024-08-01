@@ -1,7 +1,8 @@
-import {useCallback, useEffect} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import useStore from "../../store/useStore";
 import Room from "./Room.jsx";
 import FurnitureFactory from "./FurnitureFactory.jsx";
+import FurnitureFactoryPhysics from "./FurnitureFactoryPhysics.jsx";
 
 export default function Scene() {
   const factory = useStore((state) => state.factory);
@@ -12,6 +13,14 @@ export default function Scene() {
   const setActiveWall = useStore((state) => state.setActiveWall);
   const activeId = useStore((state) => state.activeId);
   const activeWall = useStore((state) => state.activeWall);
+  // const roomSize = useStore((state) => state.roomSize());
+  // const directionalLightRef = useRef();
+  // const directionalLightShadowCameraRef = useRef();
+  // const roomRef = useRef();
+
+  // useHelper(directionalLightRef, DirectionalLightHelper, 3, 'magenta');
+  // useHelper(directionalLightShadowCameraRef, CameraHelper);
+  // useHelper(roomRef, BoxHelper, 'cyan');
 
   useEffect(() => {
     const handleKey = e => {
@@ -55,17 +64,32 @@ export default function Scene() {
     });
   }, [model, factory, activeId]);
 
+  // useEffect(() => {
+  //   console.log(
+  //     roomRef.current,
+  //   );
+  // }, [roomRef]);
+
   return (
     <>
-      <axesHelper />
+      <axesHelper/>
       {/*<Lines />*/}
+
       <Room
+        // ref={roomRef}
         floorClicker={addChair}
         key="room"
       />
 
       {objects.map((furniture) => (
-        <FurnitureFactory furnitureObj={furniture} key={`cf-${furniture?.id}`} />
+        // <FurnitureFactory
+        //   furnitureObj={furniture}
+        //   key={`cf-${furniture?.id}`}
+        // />
+        <FurnitureFactoryPhysics
+          furnitureObj={furniture}
+          key={`cf-${furniture?.id}`}
+        />
       ))}
     </>
   );

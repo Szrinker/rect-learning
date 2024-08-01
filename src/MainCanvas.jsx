@@ -9,6 +9,7 @@ import {debounce} from 'throttle-debounce';
 import {observeElementResize} from './utils/observeElementResize.js';
 import { Selection } from '@react-three/postprocessing';
 import Postprocessing from './components/3d/Postprocessing.jsx';
+import { Physics, Debug } from '@react-three/cannon';
 
 extend(THREE);
 
@@ -46,7 +47,7 @@ export function createCanvas() {
       camera: {
         position: [2, 2, 2],
         near: 1,
-        far: 100,
+        far: 150,
       },
       scene: {
         background: new THREE.Color('#333333'),
@@ -77,7 +78,25 @@ export function createCanvas() {
         <ambientLight intensity={0.25} />
         <Selection>
           <Postprocessing />
-          <Scene />
+          <Physics
+            allowSleep={false}
+            axisIndex={2}
+            broadphase='SAP'
+            // defaultContactMaterial={ contactEquationStiffness: 1e6 }
+            gravity={[0, -9.81, 0]}
+            isPaused={false}
+            iterations={5}
+            maxSubSteps={10}
+            quatNormalizeFast={false}
+            quatNormalizeSkip={0}
+            shouldInvalidate={true}
+            size={1000}
+            solver='Split'
+            stepSize={1/60}
+            tolerance={0.001}
+          >
+            <Scene />
+          </Physics>
         </Selection>
       </>
     );
@@ -86,9 +105,6 @@ export function createCanvas() {
   const debounceCanvas = debounce(0, configureAndRender);
   const canvasState = configureAndRender({ width: 1, height: 1 });
 
-  // const debounceThreeStateUpdate = debounce(300, (st) => {
-  //   useThreeState.setState({ three: st });
-  // });
   canvasState.setState({
     setSizeOverride(width, height, dpr) {
       so.width = width;

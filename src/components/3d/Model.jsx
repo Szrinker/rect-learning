@@ -1,6 +1,7 @@
 import { useGLTF } from "@react-three/drei";
-import {useEffect, useLayoutEffect, useMemo} from 'react';
+import {useEffect, useLayoutEffect, useMemo, useRef} from 'react';
 import useStore from '../../store/useStore.js';
+import {useBox} from '@react-three/cannon';
 
 function resize(mesh, dimension, val) {
   if (mesh.morphTargetDictionary?.[dimension]) {
@@ -40,6 +41,12 @@ export default function Model({
   const gltf = useGLTF(model);
   const scene = useMemo(() => gltf.scene.clone(true), []);
   const resizeFurniture = useStore((state) => state.resizeFurniture);
+  // const activeId = useStore((state) => state.activeId);
+  // const isActive = id === activeId;
+  // const furnitureRef = useBox(() => ({
+  //   mass: isActive ? 1 : 0,
+  //   type: isActive ? 'Dynamic' : 'Static'
+  // }), useRef());
 
   useLayoutEffect(() => {
       scene.traverse(obj => {
@@ -83,4 +90,27 @@ export default function Model({
       <primitive name={id} userData={{ id }} object={scene} onClick={onClick} />
     </>
   );
+
+  // scene.traverse(obj => {
+  //   if (obj.isMesh) {
+  //     console.log(obj)
+  //     return (
+  //       <group
+  //         // ref={furnitureRef}
+  //       >
+  //         <mesh
+  //           name={id}
+  //           userData={{ id }}
+  //           onClick={obj}
+  //           visible
+  //         >
+  //           <meshStandardMaterial
+  //             attach="material"
+  //           />
+  //           <primitive name={id} userData={{ id }} object={obj.geometry} onClick={onClick} />
+  //         </mesh>
+  //       </group>
+  //     );
+  //   }
+  // });
 }
