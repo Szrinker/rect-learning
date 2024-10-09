@@ -1,16 +1,16 @@
 import {useEffect, useRef, useState, useLayoutEffect} from 'react';
-// import Wall from './Wall.jsx';
-import ThickWall from './ThickWall.jsx';
-import Floor from './Floor.jsx';
-import Light from './Light.jsx';
-import useStore from '../../store/useStore';
+// import Wall from 'components/3d/Wall';
+import ThickWall from 'components/3d/ThickWall';
+import Floor from 'components/3d/Floor';
+import Light from 'components/3d/Light';
+import useStore from 'store/useStore';
 // import {useFrame, useThree} from "@react-three/fiber";
-// import {useThreeStateContext} from '../../utils/threeStateContext.js';
+// import {useThreeStateContext} from 'utils/threeStateContext';
 import {useBox, usePlane, Debug} from '@react-three/cannon';
 
 export default function Room({ wallClicker, floorClicker }) {
   const {scale, wallThickness} = useStore();
-  const textureUrl = '/assets/wood.jpg?url';
+  const textureUrl = '/assets/wood.jpg';
   const roomSize = useStore((state) => state.roomSize());
   // const camera = useThree(state => state.camera);
 

@@ -1,8 +1,10 @@
 import { useCallback, useState } from 'react';
-import useStore from '../../store/useStore.js';
-import { saveProject } from '../../api/api.js';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+
+import { saveProject } from 'api/api';
+
+import useStore from 'store/useStore';
 
 export default function SaveBtn() {
   const navigate = useNavigate();

@@ -1,14 +1,14 @@
 import React, {Suspense} from 'react';
 import * as THREE from 'three'
 import { extend, createRoot, events } from '@react-three/fiber'
-import useStore from './store/useStore.js';
+import useStore from 'store/useStore';
 import {Environment} from '@react-three/drei';
-import CustomCameraControls from './components/3d/CustomCameraControls.jsx';
-import Scene from './components/3d/Scene.jsx';
+import CustomCameraControls from 'components/3d/CustomCameraControls';
+import Scene from 'components/3d/Scene';
 import {debounce} from 'throttle-debounce';
-import {observeElementResize} from './utils/observeElementResize.js';
+import {observeElementResize} from 'utils/observeElementResize';
 import { Selection } from '@react-three/postprocessing';
-import Postprocessing from './components/3d/Postprocessing.jsx';
+import Postprocessing from 'components/3d/Postprocessing';
 import { Physics, Debug } from '@react-three/cannon';
 
 extend(THREE);

@@ -1,7 +1,7 @@
 import {PointLightHelper, CameraHelper} from 'three';
 import React, {useRef} from 'react';
 import {OrthographicCamera, Sphere, useHelper} from '@react-three/drei';
-import useStore from '../../store/useStore.js';
+import useStore from 'store/useStore';
 
 export default function Light() {
   const roomSize = useStore((state) => state.roomSize());

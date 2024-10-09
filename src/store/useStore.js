@@ -1,7 +1,7 @@
 import { Box3 } from "three";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { computed } from "zustand-computed";
+import { createComputed } from "zustand-computed";
 
 function shallowObjCompare(objA, objB) {
   for (let key in objA) {
@@ -13,7 +13,7 @@ function shallowObjCompare(objA, objB) {
   return true;
 }
 
-const computedState = (state) => ({
+const computedState = createComputed((state) => ({
   bbox: () => {
     const { defaultSize, scale } = state;
 
@@ -52,12 +52,14 @@ const computedState = (state) => ({
       }
     };
   })()
-})
+}));
+
+// createComputed(computedState, '')
 
 const useStore = create(
   devtools(
-    computed(
-      (set, get) => ({
+    computedState(
+      (set, get, api) => ({
         scale: { x: 2.5, y: 1.4, z: 2.8 },
         defaultSize: 5,
         model: 'chair',
@@ -71,8 +73,8 @@ const useStore = create(
         holedWalls: [],
         pdfScreens: [],
         projectId: null,
-        setProjectId: (value) => set((state) => ({projectId: value})),
-        setProject: (value) => set((state) => {
+        setProjectId: (value) => set(() => ({projectId: value})),
+        setProject: (value) => set(() => {
           // if (value) {
           //   const {scale, objects, holedWalls, wallThickness} = value;
           //
@@ -85,22 +87,22 @@ const useStore = create(
           // }
           return value;
         }),
-        setFactory: (value) => set((state) => ({factory: value})),
-        setFurnitureResizer: (value) => set((state) => ({furnitureResizer: value})),
-        setScale: (value) => set((state) => ({ scale: value })),
-        setWallThickness: (value) => set((state) => ({wallThickness: value})),
+        setFactory: (value) => set(() => ({factory: value})),
+        setFurnitureResizer: (value) => set(() => ({furnitureResizer: value})),
+        setScale: (value) => set(() => ({ scale: value })),
+        setWallThickness: (value) => set(() => ({wallThickness: value})),
         addObject: (value) =>
           set((state) => ({ objects: [...state.objects, value] })),
         removeObject: (value) => set((state) => ({
           objects: state.objects.filter(obj => obj.id !== value)
         })),
-        setActiveId: (value) => set((state) => ({ activeId: value })),
-        setIsDragged: (value) => set((state) => ({ isDragged: value })),
-        setModel: (value) => set((state) => ({model: value})),
+        setActiveId: (value) => set(() => ({ activeId: value })),
+        setIsDragged: (value) => set(() => ({ isDragged: value })),
+        setModel: (value) => set(() => ({model: value})),
         resizeFurniture: (id, dimension, value) => set((state) => ({
           objects: state.objects.map((o) => o.id === id ? { ...o, [dimension]: Number(value) } : o),
         })),
-        setActiveWall: (value) => set((state) => ({ activeWall: value })),
+        setActiveWall: (value) => set(() => ({ activeWall: value })),
         addHoledWalls: (value) => set((state) => ({ holedWalls: [...state.holedWalls, value] })),
         removeHole: (value) => set((state) => ({
           holedWalls: state.holedWalls.filter(w => w.name !== value)
@@ -123,7 +125,6 @@ const useStore = create(
           state.pdfScreens.splice(value, 1);
         }),
       }),
-      computedState,
     ),
     {
       name: "FurnitureFactory",

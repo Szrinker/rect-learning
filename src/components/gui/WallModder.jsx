@@ -1,7 +1,9 @@
-import useStore from '../../store/useStore';
 import {AccordionDetails, AccordionSummary, Accordion, Box, FormControlLabel, FormGroup, Switch, Typography} from '@mui/material';
-import RangeInput from './RangeInput';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import useStore from 'store/useStore';
+
+import RangeInput from 'components/gui/RangeInput';
 
 export default function WallModder({
   title,

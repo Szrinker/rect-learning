@@ -1,9 +1,4 @@
 import {useState} from 'react';
-import useStore from '../store/useStore';
-import Dimensions from './gui/Dimensions';
-import FactoryPanel from './gui/FactoryPanel';
-import WallModder from './gui/WallModder';
-import MediaHandlers from './gui/MediaHandlers';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import {
@@ -17,6 +12,13 @@ import {
   Typography,
   Modal
 } from '@mui/material';
+
+import Dimensions from 'components/gui/Dimensions';
+import FactoryPanel from 'components/gui/FactoryPanel';
+import WallModder from 'components/gui/WallModder';
+import MediaHandlers from 'components/gui/MediaHandlers';
+
+import useStore from 'store/useStore';
 
 
 export default function Panel() {

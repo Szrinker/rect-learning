@@ -1,6 +1,7 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import basicSsl from '@vitejs/plugin-basic-ssl'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import basicSsl from '@vitejs/plugin-basic-ssl';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,8 +9,21 @@ export default defineConfig({
     host: true,
     https: true,
   },
+  resolve: {
+    alias: [
+      { find: 'store', replacement: path.resolve(__dirname, 'src/store') },
+      { find: 'api', replacement: path.resolve(__dirname, 'src/api') },
+      { find: 'utils', replacement: path.resolve(__dirname, 'src/utils') },
+      { find: 'components', replacement: path.resolve(__dirname, 'src/components') },
+    ],
+  },
   plugins: [
     react(),
-    basicSsl()
+    basicSsl(),
   ],
-})
+  css: {
+    scss: {
+      api: 'modern',
+    },
+  },
+});

@@ -1,6 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import {useEffect, useLayoutEffect, useMemo, useRef} from 'react';
-import useStore from '../../store/useStore.js';
+import useStore from 'store/useStore';
 import {useBox} from '@react-three/cannon';
 
 function resize(mesh, dimension, val) {

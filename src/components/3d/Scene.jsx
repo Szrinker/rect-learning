@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
-import useStore from "../../store/useStore";
-import Room from "./Room.jsx";
-import FurnitureFactory from "./FurnitureFactory.jsx";
-import FurnitureFactoryPhysics from "./FurnitureFactoryPhysics.jsx";
+import useStore from "store/useStore";
+import Room from "components/3d/Room";
+import FurnitureFactory from "components/3d/FurnitureFactory";
+import FurnitureFactoryPhysics from "components/3d/FurnitureFactoryPhysics";
 
 export default function Scene() {
   const factory = useStore((state) => state.factory);
@@ -82,14 +82,14 @@ export default function Scene() {
       />
 
       {objects.map((furniture) => (
-        // <FurnitureFactory
-        //   furnitureObj={furniture}
-        //   key={`cf-${furniture?.id}`}
-        // />
-        <FurnitureFactoryPhysics
+        <FurnitureFactory
           furnitureObj={furniture}
           key={`cf-${furniture?.id}`}
         />
+        // <FurnitureFactoryPhysics
+        //   furnitureObj={furniture}
+        //   key={`cf-${furniture?.id}`}
+        // />
       ))}
     </>
   );

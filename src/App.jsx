@@ -1,12 +1,12 @@
-import Panel from "./components/Panel";
-import useStore from './store/useStore.js';
+import Panel from "components/Panel";
+import useStore from 'store/useStore';
 import { useEffect } from 'react';
-import { getProject } from './api/api.js';
+import { getProject } from 'api/api';
 import { useParams } from 'react-router-dom';
 import { CssBaseline, Container, Box } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { indigo, teal } from '@mui/material/colors';
-import {useThreeStateContext} from './utils/threeStateContext.js';
+import {useThreeStateContext} from 'utils/threeStateContext';
 
 const theme = createTheme({
   palette: {

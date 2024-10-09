@@ -7,7 +7,7 @@ import {
 import React, {useRef, useLayoutEffect, useState, useCallback} from 'react';
 import { Html } from "@react-three/drei";
 import { Geometry, Base, Subtraction } from '@react-three/csg';
-import useStore from '../../store/useStore.js';
+import useStore from 'store/useStore.js';
 import GlassDoor from './GlassDoor.jsx';
 import { useSpring, animated, config } from '@react-spring/three'
 import {useThree} from '@react-three/fiber';

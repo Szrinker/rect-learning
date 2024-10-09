@@ -2,7 +2,7 @@ import { Box3, Sphere } from "three";
 import { useRef, useEffect, useCallback } from 'react';
 import { CameraControls } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
-import useStore from "../../store/useStore";
+import useStore from "store/useStore";
 
 function setBBoxDimensions(width, height, depth, target = new Box3()) {
   target.min.x = -(width / 2);

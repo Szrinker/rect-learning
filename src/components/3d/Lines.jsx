@@ -1,5 +1,6 @@
-import useStore from '../../store/useStore';
 import {Line, Text} from '@react-three/drei';
+
+import useStore from 'store/useStore';
 
 export default function Lines() {
   const roomSize = useStore((state) => state.roomSize());

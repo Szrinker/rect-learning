@@ -1,7 +1,9 @@
-import Grid from '@mui/material/Unstable_Grid2';
-import RangeInput from './RangeInput';
-import {Box} from '@mui/material';
-import useStore from '../../store/useStore';
+import Grid from '@mui/material/Grid2';
+import { Box } from '@mui/material';
+
+import RangeInput from 'components/gui/RangeInput';
+
+import useStore from 'store/useStore';
 
 export default function Dimensions() {
   const scale = useStore(state => state.scale);

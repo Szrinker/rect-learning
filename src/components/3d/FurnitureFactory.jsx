@@ -1,8 +1,8 @@
 import {useRef, Suspense, useLayoutEffect, useMemo, useState} from 'react';
 import { PivotControls, useHelper, Center, Html } from "@react-three/drei";
 import { Box3, BoxHelper, Matrix4, Vector3 } from "three";
-import useStore from "../../store/useStore.js";
-import Model from "./Model.jsx";
+import useStore from "store/useStore";
+import Model from "components/3d/Model";
 import {Select} from '@react-three/postprocessing';
 
 const vector3 = new Vector3();

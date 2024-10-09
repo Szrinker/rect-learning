@@ -1,7 +1,8 @@
 import {Box, ButtonGroup} from '@mui/material';
-import ScreenShoot from './ScreenShoot';
-import Pdf from './Pdf';
-// import SaveBtn from './SaveBtn';
+
+import ScreenShoot from 'components/gui/ScreenShoot';
+import Pdf from 'components/gui/Pdf';
+// import SaveBtn from 'components/gui/SaveBtn';
 
 export default function MediaHandlers() {
   return (

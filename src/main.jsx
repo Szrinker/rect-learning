@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
-import ErrorPage from './error.jsx';
+import App from './App';
+import ErrorPage from './error';
 import './index.scss';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import {createCanvas} from './MainCanvas.jsx';
-import {threeStateContext} from './utils/threeStateContext.js';
+import {createCanvas} from './MainCanvas';
+import {threeStateContext} from 'utils/threeStateContext';
 
 const { injectCanvas, canvasState } = createCanvas();
 const router = createBrowserRouter([

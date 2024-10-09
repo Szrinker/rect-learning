@@ -1,5 +1,6 @@
 import {Box, FormControl, FormControlLabel, FormGroup, InputLabel, NativeSelect, Switch} from '@mui/material';
-import useStore from '../../store/useStore';
+
+import useStore from 'store/useStore';
 
 export default function FactoryPanel() {
   const factory = useStore((state) => state.factory);

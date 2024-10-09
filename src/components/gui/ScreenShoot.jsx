@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
-import {useThreeStateContext} from '../../utils/threeStateContext.js';
 import { Button } from '@mui/material';
+
+import {useThreeStateContext} from 'utils/threeStateContext';
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
