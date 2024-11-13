@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import {useThreeStateContext} from 'utils/threeStateContext';
 
@@ -7,6 +8,7 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 export default function ScreenShoot() {
+  const { t } = useTranslation();
   const [loader, setLoader] = useState(false);
   const threeState = useThreeStateContext(state => state.get);
 
@@ -54,7 +56,7 @@ export default function ScreenShoot() {
       onClick={handler}
       disabled={loader}
     >
-      {loader ? '.....' : 'ScreenShoot'}
+      {loader ? '.....' : t('screenShoot')}
     </Button>
   )
 }

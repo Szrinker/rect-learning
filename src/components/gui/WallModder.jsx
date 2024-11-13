@@ -1,5 +1,6 @@
 import {AccordionDetails, AccordionSummary, Accordion, Box, FormControlLabel, FormGroup, Switch, Typography} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useTranslation } from 'react-i18next';
 
 import useStore from 'store/useStore';
 
@@ -10,6 +11,7 @@ export default function WallModder({
   isExpanded,
   handleChange,
 }) {
+  const { t } = useTranslation();
   const wallThickness = useStore((state) => state.wallThickness);
   const holedWalls = useStore((state) => state.holedWalls);
   const updateHole = useStore((state) => state.updateHole);
@@ -33,7 +35,7 @@ export default function WallModder({
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
         >
-          {`${title} - Hole Width`}
+          {`${title} - ${t('holeWidth')}`}
         </AccordionSummary>
         <AccordionDetails>
           <Box
@@ -74,7 +76,7 @@ export default function WallModder({
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
         >
-          {`${title} - Hole Position`}
+          {`${title} - ${t('holePosition')}`}
         </AccordionSummary>
         <AccordionDetails>
           <Box
@@ -124,7 +126,7 @@ export default function WallModder({
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
         >
-          {`${title} - Hole Glass insert`}
+          {`${title} - ${t('holeGlassInsert')}`}
         </AccordionSummary>
         <AccordionDetails>
           <Box

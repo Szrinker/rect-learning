@@ -9,7 +9,7 @@ import {debounce} from 'throttle-debounce';
 import {observeElementResize} from 'utils/observeElementResize';
 import { Selection } from '@react-three/postprocessing';
 import Postprocessing from 'components/3d/Postprocessing';
-import { Physics, Debug } from '@react-three/cannon';
+// import { Physics, Debug } from '@react-three/cannon';
 
 extend(THREE);
 
@@ -78,25 +78,25 @@ export function createCanvas() {
         <ambientLight intensity={0.25} />
         <Selection>
           <Postprocessing />
-          <Physics
-            allowSleep={false}
-            axisIndex={2}
-            broadphase='SAP'
-            // defaultContactMaterial={ contactEquationStiffness: 1e6 }
-            gravity={[0, -9.81, 0]}
-            isPaused={false}
-            iterations={5}
-            maxSubSteps={10}
-            quatNormalizeFast={false}
-            quatNormalizeSkip={0}
-            shouldInvalidate={true}
-            size={1000}
-            solver='Split'
-            stepSize={1/60}
-            tolerance={0.001}
-          >
+          {/*<Physics*/}
+          {/*  allowSleep={false}*/}
+          {/*  axisIndex={2}*/}
+          {/*  broadphase='SAP'*/}
+          {/*  // defaultContactMaterial={ contactEquationStiffness: 1e6 }*/}
+          {/*  gravity={[0, -9.81, 0]}*/}
+          {/*  isPaused={false}*/}
+          {/*  iterations={5}*/}
+          {/*  maxSubSteps={10}*/}
+          {/*  quatNormalizeFast={false}*/}
+          {/*  quatNormalizeSkip={0}*/}
+          {/*  shouldInvalidate={true}*/}
+          {/*  size={1000}*/}
+          {/*  solver='Split'*/}
+          {/*  stepSize={1/60}*/}
+          {/*  tolerance={0.001}*/}
+          {/*>*/}
             <Scene />
-          </Physics>
+          {/*</Physics>*/}
         </Selection>
       </>
     );

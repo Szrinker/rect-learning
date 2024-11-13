@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import ErrorPage from './error';
 import './index.scss';
+import i18n from 'i18n';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import {createCanvas} from './MainCanvas';
 import {threeStateContext} from 'utils/threeStateContext';

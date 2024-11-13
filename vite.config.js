@@ -15,6 +15,7 @@ export default defineConfig({
       { find: 'api', replacement: path.resolve(__dirname, 'src/api') },
       { find: 'utils', replacement: path.resolve(__dirname, 'src/utils') },
       { find: 'components', replacement: path.resolve(__dirname, 'src/components') },
+      { find: 'i18n', replacement: path.resolve(__dirname, 'src/i18n') },
     ],
   },
   plugins: [

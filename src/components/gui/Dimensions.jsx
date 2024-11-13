@@ -1,11 +1,13 @@
 import Grid from '@mui/material/Grid2';
 import { Box } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import RangeInput from 'components/gui/RangeInput';
 
 import useStore from 'store/useStore';
 
 export default function Dimensions() {
+  const { t } = useTranslation();
   const scale = useStore(state => state.scale);
   const setScale = useStore(state => state.setScale);
   const wallThickness = useStore((state) => state.wallThickness);
@@ -32,7 +34,7 @@ export default function Dimensions() {
       <Grid container spacing={2} p={2}>
         <Grid xs={12}>
           <RangeInput
-            label="Width"
+            label={t('width')}
             min={1}
             max={10}
             step={0.1}
@@ -43,7 +45,7 @@ export default function Dimensions() {
         </Grid>
         <Grid xs={12}>
           <RangeInput
-            label="Height"
+            label={t('height')}
             min={1}
             max={10}
             step={0.1}
@@ -54,7 +56,7 @@ export default function Dimensions() {
         </Grid>
         <Grid xs={12}>
           <RangeInput
-            label="Depth"
+            label={t('depth')}
             min={1}
             max={10}
             step={0.1}
@@ -65,7 +67,7 @@ export default function Dimensions() {
         </Grid>
         <Grid xs={12}>
           <RangeInput
-            label="Thickness"
+            label={t('thickness')}
             min={0.2}
             max={5}
             step={0.1}

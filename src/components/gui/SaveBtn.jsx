@@ -1,12 +1,14 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { saveProject } from 'api/api';
 
 import useStore from 'store/useStore';
 
 export default function SaveBtn() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const setProjectId = useStore(state => state.setProjectId);
@@ -42,7 +44,7 @@ export default function SaveBtn() {
       onClick={handler}
       disabled={loader}
     >
-      {loader ? '.....' : 'Save'}
+      {loader ? '.....' : t('save')}
     </Button>
   )
 }

@@ -11,6 +11,7 @@ import useStore from 'store/useStore.js';
 import GlassDoor from './GlassDoor.jsx';
 import { useSpring, animated, config } from '@react-spring/three'
 import {useThree} from '@react-three/fiber';
+import { useTranslation } from 'react-i18next';
 
 const box = new BoxGeometry();
 const Door = (props) => (
@@ -51,6 +52,7 @@ function ThickWall({
   onClick,
   name,
 }, ref) {
+  const { t } = useTranslation();
   const refMesh1 = useRef();
   const ref1 = useRef();
   const ref2 = useRef();
@@ -233,11 +235,11 @@ function ThickWall({
                   ? (<button onClick={(e) => {
                       e.preventDefault();
                       removeHole(name);
-                    }}>Remove hole</button>)
+                    }}>{t('removeHole')}Remove hole</button>)
                   : (<button onClick={(e) => {
                       e.preventDefault();
                       handleAddHole(e);
-                    }}>Add hole</button>)
+                    }}>{t('addHole')}</button>)
                 }
               </div>
             </div>

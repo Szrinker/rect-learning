@@ -8,6 +8,7 @@ import {
   ImageList,
   ImageListItem,
 } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { useThreeStateContext } from 'utils/threeStateContext';
 
@@ -28,7 +29,8 @@ const style = {
 
 const screens = [];
 
-export default function ScreenShoot() {
+export default function Pdf() {
+  const { t } = useTranslation();
   const [loader, setLoader] = useState(false);
   const [loaderPdf, setLoaderPdf] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -117,19 +119,19 @@ export default function ScreenShoot() {
           onClick={screenShotHandler}
           disabled={loader}
         >
-          {loader ? '.....' : 'PDF ScreenShoot'}
+          {loader ? '.....' : t('pdfScreenShoot')}
         </Button>
         <Button
           onClick={() => setOpenModal(true)}
           disabled={screens.length === 0}
         >
-          Show images
+          {t('showImages')}
         </Button>
         <Button
           onClick={pdfCreateHandle}
           disabled={loaderPdf}
         >
-          {loaderPdf ? '.....' : 'PDF Create'}
+          {loaderPdf ? '.....' : t('pdfCreate')}
         </Button>
       </ButtonGroup>
       <Modal
@@ -142,10 +144,10 @@ export default function ScreenShoot() {
           sx={style}
         >
           <Typography id="modal-title" variant="h5" component="h2">
-            Images for PDF.
+            {t('pdfModalTitle')}
           </Typography>
           <Typography id="modal-description">
-            List of images inserted into PDF.
+            {t('pdfModalDescription')}
           </Typography>
           <ImageList
             cols={4}

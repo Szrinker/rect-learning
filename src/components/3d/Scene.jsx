@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import useStore from "store/useStore";
 import Room from "components/3d/Room";
 import FurnitureFactory from "components/3d/FurnitureFactory";
-import FurnitureFactoryPhysics from "components/3d/FurnitureFactoryPhysics";
+// import FurnitureFactoryPhysics from "components/3d/FurnitureFactoryPhysics";
 
 export default function Scene() {
   const factory = useStore((state) => state.factory);

@@ -1,8 +1,10 @@
 import {Box, FormControl, FormControlLabel, FormGroup, InputLabel, NativeSelect, Switch} from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import useStore from 'store/useStore';
 
 export default function FactoryPanel() {
+  const { t } = useTranslation();
   const factory = useStore((state) => state.factory);
   const setFactory = useStore((state) => state.setFactory);
   const model = useStore((state) => state.model);
@@ -31,7 +33,7 @@ export default function FactoryPanel() {
         width="100%"
       >
         <FormControl fullWidth>
-          <InputLabel htmlFor="furnitureSelect">Select Furniture</InputLabel>
+          <InputLabel htmlFor="furnitureSelect">{t('selectFurniture')}</InputLabel>
           <NativeSelect
             inputProps={{
               onChange: e => setModel(e.target.value),
@@ -39,10 +41,10 @@ export default function FactoryPanel() {
               value: model,
             }}
           >
-            <option value="chair">Chair</option>
-            <option value="cabinet">Cabinet</option>
-            <option value="cabinet_width">Cabinet width</option>
-            <option value="cabinet_allmorphs">Cabinet all</option>
+            <option value="chair">{t('chair')}</option>
+            <option value="cabinet">{t('cabinet')}</option>
+            <option value="cabinet_width">{t('cabinetWidth')}</option>
+            <option value="cabinet_allmorphs">{t('cabinetAll')}</option>
           </NativeSelect>
         </FormControl>
       </Box>
@@ -58,7 +60,7 @@ export default function FactoryPanel() {
               checked={factory}
             />
           }
-          label="Enable Factory"
+          label={t('factoryToggle')}
           sx={{
             m: 0,
           }}
@@ -70,7 +72,7 @@ export default function FactoryPanel() {
               checked={furnitureResizer}
             />
           }
-          label="Enable Resizer"
+          label={t('resizerToggle')}
           sx={{
             m: 0,
           }}
