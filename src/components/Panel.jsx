@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 
 import Dimensions from 'components/gui/Dimensions';
 import FactoryPanel from 'components/gui/FactoryPanel';
+import DeskControl from 'components/gui/DeskControl';
 import WallModder from 'components/gui/WallModder';
 import MediaHandlers from 'components/gui/MediaHandlers';
 import LanguageSwitcher from 'components/gui/LanguageSwitcher';
@@ -44,7 +45,6 @@ export default function Panel() {
           expandIcon={<ExpandMoreIcon />}
         >
           {t('dimensions')}
-          {/*Dimensions*/}
         </AccordionSummary>
         <AccordionDetails>
           <Dimensions />
@@ -56,7 +56,6 @@ export default function Panel() {
           expandIcon={<ExpandMoreIcon />}
         >
           {t('factory')}
-          {/*Factory*/}
         </AccordionSummary>
         <AccordionDetails>
           <FactoryPanel />
@@ -71,6 +70,17 @@ export default function Panel() {
           handleChange={handleChange}
         />
       )}
+
+      <Accordion expanded={expanded === 'panelDesk'} onChange={handleChange('panelDesk')}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+        >
+          {t('desk')}
+        </AccordionSummary>
+        <AccordionDetails>
+          <DeskControl />
+        </AccordionDetails>
+      </Accordion>
 
       <Accordion expanded={expanded === 'panel6'} onChange={handleChange('panel6')}>
         <AccordionSummary

@@ -68,6 +68,9 @@ const useStore = create(
         activeId: null,
         isDragged: false,
         factory: false,
+        desk: false,
+        deskHeight: 0.72,
+        deskMaxHeight: 1.8,
         furnitureResizer: false,
         activeWall: null,
         holedWalls: [],
@@ -88,6 +91,8 @@ const useStore = create(
           return value;
         }),
         setFactory: (value) => set(() => ({factory: value})),
+        setDesk: (value) => set(() => ({desk: value})),
+        setDeskHeight: (value) => set(() => ({deskHeight: value})),
         setFurnitureResizer: (value) => set(() => ({furnitureResizer: value})),
         setScale: (value) => set(() => ({ scale: value })),
         setWallThickness: (value) => set(() => ({wallThickness: value})),

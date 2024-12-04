@@ -41,6 +41,9 @@ i18n
           'resizerToggle': 'Włącz morfy',
           'contactModalTitle': '!! Profesjonalny twórca cel !!',
           'contactModalDescription': 'Wracaj do pudła.',
+          'desk': 'Biurko',
+          'deskToggle': 'Dodaj biurko',
+          'deskHeight': 'Wysokość biurka',
         },
       },
       'en-US': {
@@ -75,6 +78,9 @@ i18n
           'resizerToggle': 'Enable Resizer',
           'contactModalTitle': '!! Professional Cell maker !!',
           'contactModalDescription': 'You go to jail.',
+          'desk': 'Desk',
+          'deskToggle': 'Add desk',
+          'deskHeight': 'Desk height',
         },
       }
     }

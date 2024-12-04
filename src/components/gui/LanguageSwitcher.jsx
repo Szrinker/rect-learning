@@ -29,27 +29,27 @@ function LanguageSwitcher() {
   return (
     <Suspense>
       <Box>
-        <FormControl fullWidth>
-          <InputLabel id="languageSwitcherLabel">
-            {t('languageSwitcherLabel')}
-          </InputLabel>
-          <Select
-            labelId="languageSwitcherLabel"
-            id="languageSwitcher"
-            value={language}
-            label="Language"
-            onChange={handleChange}
-          >
-            {Object.keys(lngs).map((lng) => {
-              <MenuItem
-                value={lng}
-                key={lng}
-              >
-                {lngs[lng].label}
-              </MenuItem>
-            })}
-          </Select>
-        </FormControl>
+        {/*<FormControl fullWidth>*/}
+        {/*  <InputLabel id="languageSwitcherLabel">*/}
+        {/*    {t('languageSwitcherLabel')}*/}
+        {/*  </InputLabel>*/}
+        {/*  <Select*/}
+        {/*    labelId="languageSwitcherLabel"*/}
+        {/*    id="languageSwitcher"*/}
+        {/*    value={language}*/}
+        {/*    label="Language"*/}
+        {/*    onChange={handleChange}*/}
+        {/*  >*/}
+        {/*    {Object.keys(lngs).map((lng) => {*/}
+        {/*      <MenuItem*/}
+        {/*        value={lng}*/}
+        {/*        key={lng}*/}
+        {/*      >*/}
+        {/*        {lngs[lng].label}*/}
+        {/*      </MenuItem>*/}
+        {/*    })}*/}
+        {/*  </Select>*/}
+        {/*</FormControl>*/}
         <Box
           className="language-switcher"
           key="lang-switcher"

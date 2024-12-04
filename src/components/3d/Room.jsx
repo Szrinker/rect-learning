@@ -8,7 +8,7 @@ import useStore from 'store/useStore';
 // import {useThreeStateContext} from 'utils/threeStateContext';
 // import {useBox, usePlane, Debug} from '@react-three/cannon';
 
-export default function Room({ wallClicker, floorClicker }) {
+export default function Room({ wallClicker, floorClicker, children }) {
   const {scale, wallThickness} = useStore();
   const textureUrl = '/assets/wood.jpg';
   const roomSize = useStore((state) => state.roomSize());
@@ -134,6 +134,8 @@ export default function Room({ wallClicker, floorClicker }) {
         textureRepeatY={texRepeatY}
         onClick={(e) => {floorClicker(e)}}
       />
+
+      {children}
 
       {/*<Debug color="magenta" scale={1.1}>*/}
       {/*  <Light />*/}

@@ -3,9 +3,13 @@ import useStore from "store/useStore";
 import Room from "components/3d/Room";
 import FurnitureFactory from "components/3d/FurnitureFactory";
 // import FurnitureFactoryPhysics from "components/3d/FurnitureFactoryPhysics";
+import Desk from "components/3d/Desk";
 
 export default function Scene() {
   const factory = useStore((state) => state.factory);
+  const desk = useStore((state) => state.desk);
+  const deskHeight = useStore((state) => state.deskHeight);
+  const deskMaxHeight = useStore((state) => state.deskMaxHeight);
   const objects = useStore((state) => state.objects);
   const addObject = useStore((state) => state.addObject);
   const model = useStore((state) => state.model);
@@ -79,18 +83,45 @@ export default function Scene() {
         // ref={roomRef}
         floorClicker={addChair}
         key="room"
-      />
-
-      {objects.map((furniture) => (
-        <FurnitureFactory
-          furnitureObj={furniture}
-          key={`cf-${furniture?.id}`}
-        />
-        // <FurnitureFactoryPhysics
-        //   furnitureObj={furniture}
-        //   key={`cf-${furniture?.id}`}
-        // />
-      ))}
+      >
+        {objects.map((furniture) => (
+          <FurnitureFactory
+            furnitureObj={furniture}
+            key={`cf-${furniture?.id}`}
+          />
+          // <FurnitureFactoryPhysics
+          //   furnitureObj={furniture}
+          //   key={`cf-${furniture?.id}`}
+          // />
+        ))}
+        {desk && (
+          <Desk
+            position={[0, 0, 0]}
+            width={1.6}
+            depth={0.8}
+            maxHeight={deskMaxHeight}
+            height={deskHeight}
+            legWidth={0.4}
+            legDepth={0.4}
+            extrudeSettingsTop={{
+              steps: 1,
+              depth: 0.04, //thickness
+              bevelThickness: 0.009,
+              bevelSize: 0.04,
+              bevelOffset: 0,
+              bevelSegments: 10
+            }}
+            extrudeSettingsLeg={{
+              steps: 1,
+              depth: deskHeight -0.02, //thickness
+              bevelThickness: 0,
+              bevelSize: 0.04,
+              bevelOffset: 0,
+              bevelSegments: 10
+            }}
+          />
+        )}
+      </Room>
     </>
   );
 }
